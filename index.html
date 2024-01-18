@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <link href="./src/output.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <title>SpotMix</title>
+  </head>
+  <body class="font-sans select-none max-w-[1920px] mx-auto">
+    <header>
+      <nav class="md:px-5 lg:px-8 2xl:px-16  flex w-full justify-between items-center h-[70px] top-0 bg-transparent text-textGray text-xs lg:text-sm ">
+          <div class="flex-1 text-white">
+            <a class="flex items-center gap-2" href="/">
+              <strong>
+                <img src="./spotify.svg" alt="SpotMix">
+              </strong>
+              <h1 class="text-xl font-bold">SpotMix</h1>
+            </a>
+          </div>
+          
+          <div class="flex gap-7 items-center">
+            <a class="hover:text-white transition-colors" href="#">Inicio</a>
+            <a class="hover:text-white transition-colors" href="#">Playlist</a>
+            <a class="hover:text-white transition-colors" href="#">Artistas</a>
+            <a class="hover:text-white transition-colors" href="#">Álbumes</a>
+          </div>
+          
+          <div class="text-sm font-medium flex flex-1 justify-end text-white">
+            <form action="" class="relative w-48 justify-end  lg:w-72">
+              <input class="bg-transparent border border-white rounded-full px-[45px] py-2 w-full focus:outline-none placeholder:text-textGray placeholder:text-xs focus:bg-[#454545]" aria-label="Buscar" type="text" placeholder="¿Qué quieres escuchar?" value="">
+              <img class="absolute top-[24%] left-3 transform translate-y-0.2" src="./Search.svg" alt="Bsucar">
+            </form>
+          </div>
+          
+      </nav>
+    </header>
+    
+  </body>
+</html>
