@@ -33,8 +33,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     rotateLock: true,
 
     shadow: false
-
-    // Reemplaza esto con el selector de tu elemento
-    // Otras opciones de Atropos...
   })
 })
