@@ -1,13 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundImage: {
+        gradiantBottom: 'linear-gradient(0deg,#000,rgba(0,0,0,.5) 35%,transparent 70%)',
+        gradiantLeft: 'linear-gradient(270deg,#000,rgba(0,0,0,.1) 10%,transparent 70%)',
+        gradiantRight: 'linear-gradient(90deg,#000,rgba(0,0,0,.1) 10%,transparent 70%)'
+      },
       fontFamily: {
         sans: ['DM Sans', 'sans-serif']
       },
       colors: {
-        textGray: '#939191'
+        textGray: '#999999',
+        textGray2: '#E0E0E0'
       }
 
     },

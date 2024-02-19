@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script type="module" src="/src/main.js"></script>
+    <link rel="stylesheet" href="path/to/atropos.css" />
     <link href="./src/output.css" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <title>SpotMix</title>
   </head>
-  <body class="font-sans select-none max-w-[1920px] mx-auto">
-    <header>
-      <nav class="md:px-5 lg:px-8 2xl:px-16  flex w-full justify-between items-center h-[70px] top-0 bg-transparent text-textGray text-xs lg:text-sm ">
+  <body class="font-sans select-none max-w-[1920px] mx-auto flex flex-col min-h-screen">
+    <header class="md:px-5 lg:px-8 2xl:px-16 flex top-0 w-full justify-between items-center h-[70px] text-white text-xs lg:text-sm absolute z-20">
           <div class="flex-1 text-white">
             <a class="flex items-center gap-2" href="/">
               <strong>
@@ -21,23 +21,72 @@
               <h1 class="text-xl font-bold">SpotMix</h1>
             </a>
           </div>
-          
-          <div class="flex gap-7 items-center">
-            <a class="hover:text-white transition-colors" href="#">Inicio</a>
-            <a class="hover:text-white transition-colors" href="#">Playlist</a>
-            <a class="hover:text-white transition-colors" href="#">Artistas</a>
-            <a class="hover:text-white transition-colors" href="#">Álbumes</a>
-          </div>
+        
+          <nav>
+            <ul class="flex gap-7 items-center">
+              <li><a class="hover:text-black transition-colors text-white font-semibold text-base" href="#">Inicio</a></li>
+              <li><a class="hover:text-black transition-colors text-white font-semibold text-base" href="#">Playlist</a></li>
+              <li><a class="hover:text-black transition-colors text-white font-semibold text-base" href="#">Artistas</a></li>
+              <li> <a class="hover:text-black transition-colors text-white font-semibold text-base" href="#">Álbumes</a></li>
+            </ul>
+          </nav>
           
           <div class="text-sm font-medium flex flex-1 justify-end text-white">
             <form action="" class="relative w-48 justify-end  lg:w-72">
-              <input class="bg-transparent border border-white rounded-full px-[45px] py-2 w-full focus:outline-none placeholder:text-textGray placeholder:text-xs focus:bg-[#454545]" aria-label="Buscar" type="text" placeholder="¿Qué quieres escuchar?" value="">
+              <input class="bg-transparent border border-white rounded-full px-[45px] py-2 w-full focus:outline-none placeholder:text-white placeholder:text-xs focus:bg-[#aaaaaa] focus:border-white" aria-label="Buscar" type="text" placeholder="¿Qué quieres escuchar?" value="">
               <img class="absolute top-[24%] left-3 transform translate-y-0.2" src="./Search.svg" alt="Buscar">
             </form>
           </div>
-          
-      </nav>
     </header>
+    <main>
+          <section class="w-screen h-screen absolute before:absolute before:bg-gradiantBottom before:inset-0 before:z-[1] before:content-[''] overflow-x-hidden">
+            <div class="absolute top-0 bottom-0 h-full w-full">
+              <img class="h-full w-full object-cover object-center absolute inset-0" src="./Graffiti_C_Mac.png" alt="Background">
+            </div>
+
+            <div class="h-screen flex flex-col justify-end px-16 gap-8">
+              
+              <div class="relative flex justify-center">
+                <div class="atropos my-atropos flex justify-center items-center z-[2] w-[60rem] h-[25rem] ">
+                  <div class="atropos-scale">
+                    <div class="atropos-rotate">
+                      <div class="atropos-inner bg-indigo-0 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 border border-gray-100 w-[60rem] h-[25rem]">
+                        <div class="infoArtista"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+
+              <div class="relative flex flex-col justify-end">
+                <h1 class="z-10 text-4xl font-bold">Tu música</h1> 
+              </div>
+
+              <div class="swiperContent relative z-[2]">
+                <div class="swiper mb-[7.5rem]">
+                  <div class="swiper-wrapper">
+                  </div>
+                  <div class="pagination_ hidden">
+                    <div class="after:absolute after:bg-gradiantRight after:inset-0 after:z-[1] after:content-[''] h-auto">
+                      <div class="swiper-button-prev"></div>
+                    </div>
+                    <div class="after:absolute after:bg-gradiantLeft after:inset-0 after:z-[1] after:content-[''] h-auto">
+                      <div class="swiper-button-next"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="swiper-pagination min-h-6 relative z-[2] w-full"></div>
+              </div>
+            </div>
+          </section>
+    </main>
     
-  </body>
+    <footer class="md:px-5 lg:px-8 2xl:px-16 bg-indigo-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 fixed bottom-0 z-20 h-[70px] w-full flex flex-row">
+      <div class="infoFooterArtista w-[160px] h-[160px]">
+      </div>
+    </footer>
+    <script type="module" src="/src/Swiper.js"></script>
+  </body> 
 </html>

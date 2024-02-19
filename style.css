@@ -7,6 +7,23 @@
 body {
     overflow: auto;
     color: white;
-    background: #000;
     scrollbar-gutter: stable;
+}
+
+.swiper-pagination{
+    --swiper-pagination-color: white;
+    --swiper-pagination-bullet-size: 9px;
+    --swiper-pagination-bullet-width: 9px;
+    --swiper-pagination-bullet-height: 9px;
+    --swiper-pagination-bullet-inactive-color: #b7b7b7;
+    --swiper-pagination-bullet-inactive-opacity: 0.2;
+    --swiper-pagination-bullet-opacity: 1;
+    --swiper-pagination-bullet-horizontal-gap: 7px;
+    --swiper-pagination-bullet-vertical-gap: 7px;
+    --swiper-pagination-bottom: 75px;
+}
+
+.swiper-button-prev, .swiper-button-next{
+    --swiper-navigation-size: 35px;
+    --swiper-navigation-color: white;
 }
