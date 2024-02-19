@@ -76,7 +76,6 @@ if (window.location.search.includes('code')) {
             <h1 class="font-semibold text-lg ml-4">${infoArtFooter.name}</h1>
           </div>
       </div>
-      
     `
 
   swiper.on('slideChange', updateArtistInfo)
