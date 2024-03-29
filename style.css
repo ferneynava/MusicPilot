@@ -27,3 +27,45 @@ body {
     --swiper-navigation-size: 35px;
     --swiper-navigation-color: white;
 }
+
+
+.input-volumen::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: -406px 0 0 400px rgb(132 204 22 /1);
+}
+
+.input-volumen::-moz-range-thumb {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: -406px 0 0 400px rgb(132 204 22 /1);
+}
+
+.input-volumen::-ms-thumb {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: -406px 0 0 400px rgb(132 204 22 /1);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #0b131a;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #292929;
+    border-radius: 10px;
+}
