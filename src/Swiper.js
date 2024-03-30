@@ -9,6 +9,8 @@ export let swiper
 // init Swiper:
 document.addEventListener('DOMContentLoaded', (event) => {
   swiper = new Swiper('.swiper', {
+    lazy: true,
+    virtual: true,
     speed: 200,
     init: false,
     spaceBetween: 30,

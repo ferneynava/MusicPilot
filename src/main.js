@@ -21,6 +21,7 @@ const misAlbumes = document.querySelector('.misAlbumes')
 const cancionesInfAlbum = document.querySelector('.cancionesInfAlbum')
 const misArtistas = document.querySelector('.misArtistas')
 const cancionesInfArtista = document.querySelector('.cancionesInfArtista')
+const enterBuscador = document.querySelector('#idBuscador')
 
 // Verifica si el usuario ya ha iniciado sesion
 if (window.location.search.includes('code')) {
@@ -30,7 +31,18 @@ if (window.location.search.includes('code')) {
     iniciarSpotifyWebPlaybackSDK(token)
   }
 
-  const tuMusica = await mixesMásEscuchados(token)
+  const dataAPI = await datosAPI(token).then(([data, urlsLength]) => {
+    const datos = data.then(data => {
+      return [data, urlsLength]
+    })
+    return datos
+  })
+
+  const usuarios = dataAPI[0][0]
+  const tuMusica = dataAPI[0][1]
+  const playlist = dataAPI[0][2]
+  const Albumes = dataAPI[0][3]
+  const Artistas = dataAPI[0][4]
 
   tuMusica.items.forEach((element, index) => {
     swiperWrapper.innerHTML += `
@@ -43,7 +55,7 @@ if (window.location.search.includes('code')) {
   function Tracks (element, popularity) {
     this.tracksPlaylist = function () {
       return `
-        <div class="grid grid-cols-3 items-center justify-between cursor-pointer hover:text-[#1ED760]" onclick="tracksplaylist('${element.track.artists[0].id}', '${element.track.name}')">
+        <div class="grid grid-cols-3 items-center justify-between cursor-pointer hover:text-[#1ED760]" onclick="tracksplaylist('${element.track.artists[0].id}', '${element.track.name.replace(/'/g, "\\'")}')">
           
           <div class="flex flex-row gap-4 items-center">
             <img src="${element.track.album.images[0].url}" alt="${element.track.name}" class="rounded-lg h-20">
@@ -61,7 +73,7 @@ if (window.location.search.includes('code')) {
     this.tracksAlbum = function () {
       const constartistNames = [element.artists[0].name, element.artists[1]?.name, element.artists[2]?.name].filter(name => name).join('💙 ')
       return `
-        <div class="grid grid-cols-2 items-center justify-between cursor-pointer hover:text-[#1ED760] " onclick="tracksplaylist('${element.artists[0].id}', '${element.name}')">
+        <div class="grid grid-cols-2 items-center justify-between cursor-pointer hover:text-[#1ED760] " onclick="tracksplaylist('${element.artists[0].id}', '${element.name.replace(/'/g, "\\'")}')">
           
           <div class="items-center">
             <div class="flex flex-col gap-y-2">
@@ -77,7 +89,7 @@ if (window.location.search.includes('code')) {
 
     this.tracksArtista = function () {
       return `
-        <div class="grid grid-cols-1 items-center justify-between cursor-pointer hover:text-[#1ED760] " onclick="tracksplaylist('${element.artists[0].id}', '${element.name}')">
+        <div class="grid grid-cols-1 items-center justify-between cursor-pointer hover:text-[#1ED760] " onclick="tracksplaylist('${element.artists[0].id}', '${element.name.replace(/'/g, "\\'")}')">
           
         <div class="flex flex-row gap-4 items-center">
           <img src="${element.album.images[0].url}" alt="${element.name}" class="rounded-lg h-20">
@@ -93,13 +105,19 @@ if (window.location.search.includes('code')) {
   async function updateArtistInfo () {
     const index = swiper.realIndex
     const artistId = tuMusica.items[index].artists[0].id
-    const infoArt = await informacionArtista(token, artistId)
-    const usuario = await obtenerUsuario(token)
+    const dataAPIupdateArtis = await datosAPI(token, artistId, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+      const datos = data.then(data => {
+        return [data, urlsLength]
+      })
+      return datos
+    })
+    const longitudURL = dataAPIupdateArtis[1]
+    const infoArt = dataAPIupdateArtis[0][longitudURL - 1]
     infoArtista.innerHTML = `
             <div class="containerInfo z-10 grid justify-center items-center p-5">
               <div class="flex gap-4">
-                <img src="${usuario.images[0].url}" alt="${usuario.display_name}" class="w-8 h-8 rounded-lg">
-                <h1 class="font-semibold text-2xl">${usuario.display_name} 💙</h1>
+                <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
+                <h1 class="font-semibold text-2xl">${usuarios.display_name} 💙</h1>
               </div>
               <div class="flex gap-9"> 
                 <div class="flex flex-col gap-y-8 items-center justify-center"> 
@@ -125,8 +143,16 @@ if (window.location.search.includes('code')) {
       slide.addEventListener('click', async () => {
         const id = slide.id
         const idArtistaSelect = tuMusica.items[id].artists[0].id
-        const infoArtClick = await informacionArtista(token, idArtistaSelect)
-        const usuario = await obtenerUsuario(token)
+
+        const dataAPIupdateArtis = await datosAPI(token, idArtistaSelect, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+          const datos = data.then(data => {
+            return [data, urlsLength]
+          })
+          return datos
+        })
+        const longitudURL = dataAPIupdateArtis[1]
+        const infoArtClick = dataAPIupdateArtis[0][longitudURL - 1]
+
         infoFooterArtista.innerHTML = `
         <div class="flex flex-row items-center">
           <img src="${infoArtClick.images[2].url}" alt="${infoArtClick.name}" class="w-14 h-14 rounded-lg">
@@ -139,8 +165,8 @@ if (window.location.search.includes('code')) {
         infoArtista.innerHTML = `
             <div class="containerInfo z-10 grid justify-center items-center p-5 h-auto">
               <div class="flex gap-4">
-                <img src="${usuario.images[0].url}" alt="${usuario.display_name}" class="w-8 h-8 rounded-lg">
-                <h1 class="font-semibold text-2xl">${usuario.display_name} 💙</h1>
+                <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
+                <h1 class="font-semibold text-2xl">${usuarios.display_name} 💙</h1>
               </div>
               <div class="flex gap-9">
                 <div class="flex flex-col gap-y-8 items-center justify-center"> 
@@ -162,21 +188,27 @@ if (window.location.search.includes('code')) {
     })
   })
 
-  const infoArtFooter = await informacionArtista(token, tuMusica.items[0].artists[0].id)
+  const dataAPIupdateArtis = await datosAPI(token, tuMusica.items[0].artists[0].id, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+    const datos = data.then(data => {
+      return [data, urlsLength]
+    })
+    return datos
+  })
+  const longitudURL = dataAPIupdateArtis[1]
+  const infoArt = dataAPIupdateArtis[0][longitudURL - 1]
+
   infoFooterArtista.innerHTML = `
       <div class="flex flex-row items-center">
-        <img src="${infoArtFooter.images[2].url}" alt="${infoArtFooter.name}" class="w-14 h-14 rounded-lg">
+        <img src="${infoArt.images[2].url}" alt="${infoArt.name}" class="w-14 h-14 rounded-lg">
           <div class="flex flex-col gap-y-2 items-center justify-center">
             <h1 class="font-semibold text-xs ml-4">${tuMusica.items[0].name}</h1>
-            <h1 class="font-semibold text-lg ml-4">${infoArtFooter.name}</h1>
+            <h1 class="font-semibold text-lg ml-4">${infoArt.name}</h1>
           </div>
       </div>
     `
 
-  const playlist = await obtenerPlaylist(token)
-  const usuario = await obtenerUsuario(token)
   misPlaylists.innerHTML = `
-  <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Playlist ${usuario.display_name}</h1>
+  <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Playlist ${usuarios.display_name}</h1>
     <div class="grid gap-5 p-5 overflow-y-scroll">
       ${playlist.items.map((element) => `
         <div class="grid grid-cols-2 cursor-pointer items-center hover:text-[#1ED760]" onclick="handleClick('${element.id}', '${element.images[0].url}', '${element.name}', '${element.description.replace(/'/g, "\\'")}')">
@@ -188,7 +220,15 @@ if (window.location.search.includes('code')) {
     </div>
   `
 
-  const cancionesPlaylist = await obtenerCancionesPlaylist(token, playlist.items[0].id)
+  const dataAPIcancionesPlay = await datosAPI(token, undefined, playlist.items[0].id, undefined, undefined, undefined).then(([data, urlsLength]) => {
+    const datos = data.then(data => {
+      return [data, urlsLength]
+    })
+    return datos
+  })
+  const longitudURLs = dataAPIcancionesPlay[1]
+  const cancionesPlaylist = dataAPIcancionesPlay[0][longitudURLs - 1]
+
   cancionesPlaylists.innerHTML = `  
     <div class="flex items-center gap-10">
       <img src="${playlist.items[0].images[0].url}" alt="playlist" class="rounded-lg h-40">
@@ -215,7 +255,15 @@ if (window.location.search.includes('code')) {
   `
 
   window.handleClick = async (id, urlImagen, name, description) => {
-    const cancionesPlaylist = await obtenerCancionesPlaylist(token, id)
+    const dataAPIcancionesPlay = await datosAPI(token, undefined, id, undefined, undefined, undefined).then(([data, urlsLength]) => {
+      const datos = data.then(data => {
+        return [data, urlsLength]
+      })
+      return datos
+    })
+    const longitudURLs = dataAPIcancionesPlay[1]
+    const cancionesPlaylist = dataAPIcancionesPlay[0][longitudURLs - 1]
+
     cancionesPlaylists.innerHTML = `  
       <div class="flex items-center gap-10">
         <img src="${urlImagen}" alt="playlist" class="rounded-lg h-40">
@@ -243,23 +291,30 @@ if (window.location.search.includes('code')) {
   }
 
   window.tracksplaylist = async (id, namePlaylist) => {
-    const infoArtPlayList = await informacionArtista(token, id)
+    const dataAPIupdateArtis = await datosAPI(token, id, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+      const datos = data.then(data => {
+        return [data, urlsLength]
+      })
+      return datos
+    })
+    const longitudURLs = dataAPIupdateArtis[1]
+    const infoArt = dataAPIupdateArtis[0][longitudURLs - 1]
+
     infoFooterArtista.innerHTML = `
       <div class="flex flex-row items-center">
-        <img src="${infoArtPlayList.images[2].url}" alt="${infoArtPlayList.name}" class="w-14 h-14 rounded-lg">
+        <img src="${infoArt.images[2].url}" alt="${infoArt.name}" class="w-14 h-14 rounded-lg">
         <div class="flex flex-col gap-y-2 items-center justify-center">
             <h1 class="font-semibold text-xs ml-4">${namePlaylist}</h1>
-            <h1 class="font-semibold text-lg ml-4">${infoArtPlayList.name}</h1>
+            <h1 class="font-semibold text-lg ml-4">${infoArt.name}</h1>
           </div>
       </div>
       `
   }
 
-  const albumes = await obtenerAlbumes(token)
   misAlbumes.innerHTML = `
-    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Albumes ${usuario.display_name}</h1>
+    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Albumes ${usuarios.display_name}</h1>
     <div class="grid gap-5 p-5 overflow-y-scroll">
-      ${albumes.items.map((element) => `
+      ${Albumes.items.map((element) => `
         <div class=" grid grid-cols-2 cursor-pointer items-center hover:text-[#1ED760] " onclick="handleClickAlbumes('${element.album.id}', '${element.album.images[0].url}', '${element.album.name}', '${element.album.artists[0].name}')">
         <img src="${element.album.images[0].url}" alt="${element.album.name}" class="rounded-lg h-20 place-self-center">
         <h1 class="font-semibold text-base justify-self-start text-start">${element.album.name}</h1>
@@ -268,15 +323,33 @@ if (window.location.search.includes('code')) {
     }
     </div>
   `
-  const id = albumes.items[0].album.id
-  const cancionesAlbum = await obtenerCancionesAlbum(token, id)
-  const infoArtAlbum = await informacionPista(token, cancionesAlbum.items[0].id)
+
+  const idAlbum = Albumes.items[0].album.id
+
+  const dataAPICancionesAlbumes = await datosAPI(token, undefined, undefined, idAlbum, undefined, undefined).then(([data, urlsLength]) => {
+    const datos = data.then(data => {
+      return [data, urlsLength]
+    })
+    return datos
+  })
+  const longitudURLss = dataAPICancionesAlbumes[1]
+  const cancionesAlbum = dataAPICancionesAlbumes[0][longitudURLss - 1]
+  const dataAPICancionesArtAlbum = await datosAPI(token, undefined, undefined, undefined, cancionesAlbum.items[0].id, undefined).then(([data, urlsLength]) => {
+    const datos = data.then(data => {
+      return [data, urlsLength]
+    })
+    return datos
+  })
+  const longitudURLsss = dataAPICancionesArtAlbum[1]
+
+  const infoArtAlbum = dataAPICancionesArtAlbum[0][longitudURLsss - 1]
+
   cancionesInfAlbum.innerHTML = `  
   <div class="flex items-center gap-10">
-    <img src="${albumes.items[0].album.images[0].url}" alt="${albumes.items[0].album.name}" class="rounded-lg h-40">
+    <img src="${Albumes.items[0].album.images[0].url}" alt="${Albumes.items[0].album.name}" class="rounded-lg h-40">
     <div class="flex flex-col">
-      <h1 class="font-semibold text-4xl text-white">${albumes.items[0].album.name}</h1>
-      <p class="font-semibold text-slate-500">${albumes.items[0].album.artists[0].name}</p>
+      <h1 class="font-semibold text-4xl text-white">${Albumes.items[0].album.name}</h1>
+      <p class="font-semibold text-slate-500">${Albumes.items[0].album.artists[0].name}</p>
     </div>
   </div>
 
@@ -295,8 +368,14 @@ if (window.location.search.includes('code')) {
   `
 
   window.handleClickAlbumes = async (id, urlImagen, name, description) => {
-    const cancionesAlbum = await obtenerCancionesAlbum(token, id)
-    const infoArtAlbum = await informacionPista(token, cancionesAlbum.items[0].id)
+    const dataAPICancionesAlbumes = await datosAPI(token, undefined, undefined, id, undefined, undefined).then(([data, urlsLength]) => {
+      const datos = data.then(data => {
+        return [data, urlsLength]
+      })
+      return datos
+    })
+    const longitudURLss = dataAPICancionesAlbumes[1]
+    const cancionesAlbum = dataAPICancionesAlbumes[0][longitudURLss - 1]
     cancionesInfAlbum.innerHTML = `  
       <div class="flex items-center gap-10">
         <img src="${urlImagen}" alt="playlist" class="rounded-lg h-40">
@@ -322,12 +401,10 @@ if (window.location.search.includes('code')) {
       `
   }
 
-  const artistas = await obtenerArtistas(token)
-
   misArtistas.innerHTML = `
-    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Artistas ${usuario.display_name}</h1>
+    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Artistas ${usuarios.display_name}</h1>
     <div class="grid gap-5 p-5 overflow-y-scroll">
-      ${artistas.artists.items.map((element) => `
+      ${Artistas.artists.items.map((element) => `
         <div class="grid grid-cols-2 cursor-pointer items-center hover:text-[#1ED760] " onclick="handleClickArtistas('${element.id}', '${element.images[0].url}', '${element.name.replace(/'/g, "\\'")}')">
           <img src="${element.images[0].url}" alt="${element.name}" class="rounded-lg h-20 place-self-center">
           <h1 class="font-semibold text-base justify-self-start text-start">${element.name}</h1>
@@ -336,13 +413,22 @@ if (window.location.search.includes('code')) {
     }
     </div>
   `
-  const artistasTracksTop = await obtenerCancionesPopularesArtista(token, artistas.artists.items[0].id)
-  console.log(artistasTracksTop)
+
+  const dataAPICancionesPopularesArtista = await datosAPI(token, undefined, undefined, undefined, undefined, Artistas.artists.items[0].id).then(([data, urlsLength]) => {
+    const datos = data.then(data => {
+      return [data, urlsLength]
+    })
+    return datos
+  })
+  const longitudURLssss = dataAPICancionesPopularesArtista[1]
+
+  const artistasTracksTop = dataAPICancionesPopularesArtista[0][longitudURLssss - 1]
+
   cancionesInfArtista.innerHTML = `
     <div class="flex items-center gap-10">
-      <img src="${artistas.artists.items[0].images[0].url}" alt="${artistas.artists.items[0].name}" class="rounded-lg h-40">
+      <img src="${Artistas.artists.items[0].images[0].url}" alt="${Artistas.artists.items[0].name}" class="rounded-lg h-40">
       <div class="flex flex-col">
-        <h1 class="font-semibold text-4xl text-white">${artistas.artists.items[0].name}</h1>
+        <h1 class="font-semibold text-4xl text-white">${Artistas.artists.items[0].name}</h1>
       </div>
     </div>
     <h1 class="font-semibold text-4xl text-white"> Populares</h1>
@@ -355,7 +441,15 @@ if (window.location.search.includes('code')) {
   `
 
   window.handleClickArtistas = async (id, urlImagen, name) => {
-    const artistasTracksTop = await obtenerCancionesPopularesArtista(token, id)
+    const dataAPICancionesPopularesArtista = await datosAPI(token, undefined, undefined, undefined, undefined, id).then(([data, urlsLength]) => {
+      const datos = data.then(data => {
+        return [data, urlsLength]
+      })
+      return datos
+    })
+    const longitudURLssss = dataAPICancionesPopularesArtista[1]
+    const artistasTracksTop = dataAPICancionesPopularesArtista[0][longitudURLssss - 1]
+
     cancionesInfArtista.innerHTML = `
       <div class="flex items-center gap-10">
         <img src="${urlImagen}" alt="${name}" class="rounded-lg h-40">
@@ -373,11 +467,22 @@ if (window.location.search.includes('code')) {
       `
   }
 
+  enterBuscador.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      // Aquí va el código que se ejecutará cuando se presione Enter
+      console.log('Enter fue presionado')
+    }
+  })
+
   swiper.on('slideChange', updateArtistInfo)
   swiper.init()
 } else {
   inicioAutorizacion()
 }
+
+document.querySelector('form').addEventListener('submit', (event) => {
+  event.preventDefault()
+})
 
 // Funciones de autorizacion y verificacion de usuario
 async function inicioAutorizacion () {
@@ -430,127 +535,32 @@ async function obtenerToken () {
   return token
 }
 
-// Peticiones API Spotify
-async function obtenerUsuario (token) {
-  const resUsuario = await fetch('https://api.spotify.com/v1/me', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
+// Funcion para obtener datos de la API de Spotify
 
-  const usuario = await resUsuario.json()
-  return usuario
-}
+async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArtista) {
+  const urls = ['https://api.spotify.com/v1/me', 'https://api.spotify.com/v1/me/top/tracks?limit=50', 'https://api.spotify.com/v1/me/playlists', 'https://api.spotify.com/v1/me/albums', 'https://api.spotify.com/v1/me/following?type=artist']
 
-async function mixesMásEscuchados (token) {
-  const resMasEscuchados = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=50', {
+  const idToUrl = {
+    id: id && `https://api.spotify.com/v1/artists/${id}`,
+    idPlaylist: idPlaylist && `https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`,
+    idAlbum: idAlbum && `https://api.spotify.com/v1/albums/${idAlbum}/tracks`,
+    idPista: idPista && `https://api.spotify.com/v1/tracks/${idPista}`,
+    idPopularesArtista: idPopularesArtista && `https://api.spotify.com/v1/artists/${idPopularesArtista}/top-tracks?market=ES`
+  }
+
+  const urlss = Object.values(idToUrl).filter(Boolean)
+  urls.push(...urlss)
+
+  const promises = urls.map(url => fetch(url, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     type: 'tracks'
-  })
+  }))
 
-  const masEscuchados = await resMasEscuchados.json()
-  return masEscuchados
-}
+  const datosPromesa = Promise.all(promises).then(responses => Promise.all(responses.map(response => response.json())))
 
-async function informacionArtista (token, id) {
-  const informacion = await fetch(`https://api.spotify.com/v1/artists/${id}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-
-  const informacionArt = await informacion.json()
-  return informacionArt
-}
-
-async function obtenerPlaylist (token) {
-  const resPlaylist = await fetch('https://api.spotify.com/v1/me/playlists', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const playlist = await resPlaylist.json()
-  return playlist
-}
-
-async function obtenerCancionesPlaylist (token, id) {
-  const resCancionesPlaylist = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const cancionesPlaylist = await resCancionesPlaylist.json()
-  return cancionesPlaylist
-}
-
-async function obtenerAlbumes (token) {
-  const resAlbumes = await fetch('https://api.spotify.com/v1/me/albums', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const albumes = await resAlbumes.json()
-  return albumes
-}
-
-async function obtenerCancionesAlbum (token, id) {
-  const resCancionesAlbum = await fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const cancionesAlbum = await resCancionesAlbum.json()
-  return cancionesAlbum
-}
-
-async function informacionPista (token, id) {
-  const resPista = await fetch(`https://api.spotify.com/v1/tracks/${id}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const pista = await resPista.json()
-  return pista
-}
-
-async function obtenerArtistas (token) {
-  const resArtistas = await fetch('https://api.spotify.com/v1/me/following?type=artist', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const artistas = await resArtistas.json()
-  return artistas
-}
-
-async function obtenerCancionesPopularesArtista (token, id) {
-  const resCancionesPopulares = await fetch(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=ES`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  const cancionesPopulares = await resCancionesPopulares.json()
-  return cancionesPopulares
+  return [datosPromesa, urls.length]
 }
