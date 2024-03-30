@@ -470,7 +470,7 @@ if (window.location.search.includes('code')) {
   enterBuscador.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
       // Aquí va el código que se ejecutará cuando se presione Enter
-      console.log('Enter fue presionado')
+      console.log('Enter fue presionados')
     }
   })
 
