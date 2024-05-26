@@ -11,7 +11,7 @@ body {
 }
 
 .swiper-pagination{
-    --swiper-pagination-color: white;
+    --swiper-pagination-color: #1DD25E;
     --swiper-pagination-bullet-size: 9px;
     --swiper-pagination-bullet-width: 9px;
     --swiper-pagination-bullet-height: 9px;
@@ -24,8 +24,8 @@ body {
 }
 
 .swiper-button-prev, .swiper-button-next{
-    --swiper-navigation-size: 35px;
-    --swiper-navigation-color: white;
+    --swiper-navigation-size: 30px;
+    --swiper-navigation-color: #1ED760;
 }
 
 
@@ -37,7 +37,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
     border-radius: 50%;
-    box-shadow: -406px 0 0 400px rgb(132 204 22 /1);
+    box-shadow: -406px 0 0 400px #1ED760;
 }
 
 .input-volumen::-moz-range-thumb {
@@ -47,7 +47,7 @@ body {
     border-radius: 50%;
     cursor: pointer;
     border-radius: 50%;
-    box-shadow: -406px 0 0 400px rgb(132 204 22 /1);
+    box-shadow: -406px 0 0 400px #1ED760;
 }
 
 .input-volumen::-ms-thumb {
@@ -57,15 +57,72 @@ body {
     border-radius: 50%;
     cursor: pointer;
     border-radius: 50%;
-    box-shadow: -406px 0 0 400px rgb(132 204 22 /1);
+    box-shadow: -406px 0 0 400px #1ED760;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    background-color: #0b131a;
+    width: 8px;
+    background-color: #010203;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #292929;
+    background-color: #1ED760;
     border-radius: 10px;
+}
+
+@media (max-width: 1019px) {
+    .headerDesktop{
+        padding: 0 2rem;
+    }
+
+    .container {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .containerMisListas{
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .containerMisListas h1{
+        justify-self: center;
+    }
+
+    .presentacionImg{
+        display: none;
+    }
+
+    .mobilePlaylist{
+        display: none;
+    }
+
+    .mobileInfAlbum{
+        display: none;
+    }
+
+    .mobileInfArtista{
+        display: none;
+    }
+
+    .Menu-container{
+        display: none;
+    }
+
+    .Menu-Movil{
+        display: block;
+    }
+    
+    .Menu-Movil img{
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .footerRepro {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    .mobileVolumen{
+        display: none;
+    }
+
 }

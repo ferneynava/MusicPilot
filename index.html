@@ -7,12 +7,12 @@
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
     <script type="module" src="/src/main.js"></script>
     <link rel="stylesheet" href="path/to/atropos.css" />
-    <link href="./src/output.css" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <title>SpotMix</title>
   </head>
-  <body class="font-sans select-none max-w-[1920px] mx-auto min-h-screen overflow-x-hidden">
-    <header class="md:px-5 lg:px-8 2xl:px-16 flex top-0 w-full justify-between items-center h-[70px] text-white text-xs lg:text-sm fixed z-20">
+  <body class="font-sans select-none max-w-[1920px] mx-auto text-white text-xs lg:text-sm">
+    <header class="top-0 fixed z-20 w-full">
+        <div class="headerDesktop md:px-5 lg:px-8 2xl:px-16 flex justify-between items-center h-[70px] gap-4">
           <div class="flex-1 text-white">
             <a class="flex items-center gap-2" href="/">
               <strong>
@@ -22,48 +22,79 @@
             </a>
           </div>
         
-          <nav>
-            <ul class="flex gap-7 items-center">
-              <li><a class="hover:text-[#1ED760] transition-colors text-white font-semibold text-base" href="#Inicio">Inicio</a></li>
-              <li><a class="hover:text-[#1ED760]  transition-colors text-white font-semibold text-base" href="#Playlist">Playlist</a></li>
-              <li> <a class="hover:text-[#1ED760]  transition-colors text-white font-semibold text-base" href="#Albumes">Álbumes</a></li>
-              <li><a class="hover:text-[#1ED760] transition-colors text-white font-semibold text-base" href="#Artistas">Artistas</a></li>
+          <nav class="Menu-container">
+            <ul class="flex gap-7 items-center font-semibold text-base">
+              <li><a href="#Inicio">Inicio</a></li>
+              <li><a href="#Playlist">Playlist</a></li>
+              <li> <a href="#Albumes">Álbumes</a></li>
+              <li><a href="#Artistas">Artistas</a></li>
             </ul>
           </nav>
           
-          <div class="text-sm font-medium flex flex-1 justify-end text-white">
+          <div class="Menu-container text-sm font-medium flex flex-1 justify-end text-white">
             <form action="" class="relative w-48 justify-end  lg:w-72">
-              <input id="idBuscador" class="bg-transparent border border-white rounded-full px-[45px] py-2 w-full focus:outline-none placeholder:text-white placeholder:text-xs focus:bg-[#aaaaaa] focus:border-white" aria-label="Buscar" type="text" placeholder="¿Qué quieres escuchar?" value="">
-              <img class="absolute top-[24%] left-3 transform translate-y-0.2" src="./Search.svg" alt="Buscar">
+              <input id="idBuscador" class="bg-transparent border border-white rounded-full px-[45px] py-2 w-full focus:outline-none placeholder:text-white placeholder:text-xs focus:bg-[#aaaaaa] focus:border-white" aria-label="Buscar" type="text" placeholder="¿Qué artista quieres escuchar?" value="">
+              <button id="searchButton" class="absolute top-0 left-0 mt-2 ml-2" type="submit">
+                <img src="./Search.svg" alt="Buscar">
+              </button>
             </form>
           </div>
+
+          <div class="Menu-container perfil">
+          </div>
+
+          <a class="Menu-Movil lg:hidden" href="#">
+            <img src="Menu.svg" alt="Menu">
+          </a>
+        </div>
+        
+        <div class="menuActive hidden">
+          <div class="headerMobile bg-[#0b131a] flex flex-col justify-center items-center h-screen w-full bordergap-4 inset-0 absolute rounded-bl-[50.5rem] gap-7 before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+            <a class="Menu-iphon_cerrar z-10" href="#">
+              <svg class="absolute top-8 right-8 h-12 w-12" stroke="currentColor" fill="#FAFAFA" stroke-width="0" viewBox="0 0 1024 1024" height="2.3rem" width="2.3rem" xmlns="http://www.w3.org/2000/svg"><path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path></svg>
+            </a>
+            <div class="perfil-mobile z-10">
+            </div>
+            <nav class="z-10">
+              <ul class="flex gap-8 items-center flex-col text-lg font-semibold">
+                <li><a class="inicio hover:text-[#1ED760]" href="#Inicio">Inicio</a></li>
+                <li><a class="playlist hover:text-[#1ED760]" href="#Playlist">Playlist</a></li>
+                <li> <a class="albumes hover:text-[#1ED760]" href="#Albumes">Álbumes</a></li>
+                <li><a class="artistasClickMovil artistas hover:text-[#1ED760]" href="#Artistas">Artistas</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
     </header>
-    <main class="w-screen h-screen relative">
-          <section id="Inicio" class="w-screen h-screen before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+    <main class="w-screen h-screen relative overflow-x-hidden snap-mandatory snap-y scroll-smooth overflow-auto">
+          <section id="Inicio" class="w-screen h-screen before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-[''] snap-center">
             <div class="absolute top-0 bottom-0 h-full w-full">
               <img class="h-full w-full object-cover object-center absolute inset-0" src="./Graffiti_C_Mac.png" alt="Background">
             </div>
 
             <div class="relative h-screen flex flex-col justify-end px-16 gap-8 z-10">
               <div class="flex justify-center">
-                <div class="atropos my-atropos flex justify-center items-center w-[60rem] h-[25rem] ">
+                <div class="atropos my-atropos flex justify-center items-center w-[60rem] h-auto transition-height duration-300 ease-in-out">
                   <div class="atropos-scale">
                     <div class="atropos-rotate">
-                      <div class="atropos-inner bg-slate-900 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-[0.8] border-4 border-gray-100 w-[60rem] h-[25rem]">
-                        <div class="infoArtista"></div>
+                      <div class="atropos-inner rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-[0.8] border-4 border-[#1ED760] shadow-[0_7px_20px_rgba(0,_255,_45,_0.8)]">
+                        <div class="infoArtista">
+                          <div class="containerInfo z-10 grid justify-center items-center p-5 gap-4">
+                            
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               
-
-              <div class="relative flex flex-col justify-end">
+              <div class="relative">
                 <h1 class="z-10 text-4xl font-bold">Tu música</h1> 
               </div>
 
               <div class="swiperContent relative z-[2]">
-                <div class="swiper mb-[7.5rem]">
+                <div class="swiper mb-[9.5rem]">
                   <div class="swiper-wrapper">
                   </div>
                   <div class="swiper-button-prev"></div>
@@ -73,54 +104,92 @@
               </div>
             </div>
           </section>
-          <section id="Playlist" class="w-screen h-screen bg-[#0b131a]">
-            <div class="relative h-full grid grid-cols-custom px-16 gap-5 py-14">
-              <aside class="misPlaylists text-center flex flex-col overflow-y-scroll">
+          <section id="Playlist" class="relative flex justify-center w-screen h-screen bg-[#0b131a] snap-center before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+            <div class="container h-full grid grid-cols-custom px-16 gap-5 py-14 ">
+              <a class="devolverMisPlaylist hidden z-10" href="#">
+                <img class="absolute top-16 left-5 h-12 w-12" src="arrow-circle-left.svg" alt="Devolver">
+              </a>
+              <aside class="misPlaylists text-center flex flex-col overflow-y-scroll z-10 snap-mandatory snap-y overflow-auto">
               </aside>
-              <section class="cancionesPlaylists flex flex-col overflow-y-scroll gap-4">
+              <section class="cancionesPlaylists mobilePlaylist flex flex-col overflow-y-scroll gap-4 z-10">
               </section>
             </div>
           </section>
-          <section id="Albumes" class="w-screen h-screen bg-[#0b131a]">
-            <div class="relative h-full grid grid-cols-custom px-16 gap-5 py-14">
-              <aside class="misAlbumes text-center flex flex-col overflow-y-scroll">
+          <section id="Albumes" class="relative w-screen flex justify-center h-screen bg-[#0b131a] snap-center before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+            <div class="container h-full grid grid-cols-custom px-16 gap-5 py-14 ">
+              <a class="devolverMisAlbumes hidden z-10" href="#">
+                <img class="absolute top-16 left-5 h-12 w-12" src="arrow-circle-left.svg" alt="Devolver">
+              </a>
+              <aside class="misAlbumes text-center flex flex-col overflow-y-scroll z-10 snap-mandatory snap-y overflow-auto">
               </aside>
-              <section class="cancionesInfAlbum flex flex-col overflow-y-scroll gap-4">
+              <section class="cancionesInfAlbum mobileInfAlbum flex flex-col overflow-y-scroll gap-4 z-10">
               </section>
             </div>
           </section>
-          <section id="Artistas" class="w-screen h-screen bg-[#0b131a]">
-            <div class="relative h-full grid grid-cols-custom px-16 gap-5 py-14">
-              <aside class="misArtistas text-center flex flex-col overflow-y-scroll">
+          <section id="Artistas" class="relative w-screen h-screen flex justify-center bg-[#0b131a] snap-center before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+            <div class="container h-full grid grid-cols-custom px-16 gap-5 py-14">
+              <a class="devolverMisArtistas hidden z-10" href="#">
+                <img class="absolute top-16 left-5 h-12 w-12" src="arrow-circle-left.svg" alt="Devolver">
+              </a>
+              <aside id="idmisArtistas" class="misArtistas text-center flex flex-col overflow-y-scroll z-10">
               </aside>
-              <section class="cancionesInfArtista flex flex-col overflow-y-scroll gap-4">
+              <aside id="idmisArtistasBusqueda" class="misArtistasBusqueda text-center flex flex-col overflow-y-scroll z-10">
+              </aside>
+              <section class="cancionesInfArtista mobileInfArtista flex flex-col overflow-y-scroll gap-4 z-10">
               </section>
             </div>  
           </section>
+          <footer class="after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] snap-center before:absolute before:bg-gradiantBottom before:inset-0 before:z-[1] before:content-[''] footerInfo grid lg:grid-cols-2 grid-cols-1 relative bg-[#0b131a] px-16 py-10 items-center gap-y-2">
+            <div class="flex flex-col justify-center text-white px-6 gap-2 z-10 w-48 h-auto justify-self-center">
+              <h1>SPOTMIX</h1>
+              <p class="text-xs">Entretenimiento con la API de Spotify. Nuestra página web ofrece una experiencia única utilizando la API de Spotify, diseñada exclusivamente con propósitos educativos.</p>
+            </div>
+            <div class="px-6 flex flex-col gap-2 z-10 justify-self-center">
+              <h1>CONTACTAME</h1>
+              <ul class="flex flex-col gap-1 text-xs">
+                <li>
+                  <a class="flex items-center gap-2 hover:text-[#1ED760] transition-opacity" href="https://github.com/ferneynava" target="_blank"> 
+                    <img class="Github w-9 h-9" src="GitHub.svg" alt="GitHub">
+                    <span>GitHub</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="flex items-center gap-2 hover:text-[#1ED760] transition-opacity" href="https://www.linkedin.com/in/ferney-alexander-nava-trujillo-0478a8118/" target="_blank"> 
+                    <img  class="LinkedIn w-9 h-9" src="LinkedIn.svg" alt="LinkedIn">
+                    <span>LinkedIn</span> 
+                  </a>
+                </li>
+                <li>
+                  <a class="flex items-center gap-2 hover:text-[#1ED760] transition-opacity" href="https://ferneynava.com/" target="_blank"> 
+                    <img  class="Portafolio w-9 h-9" src="Maleta.svg" alt="LinkedIn">
+                    <span>Portafolio</span> 
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <p class="px-6 z-10 lg:col-start-1 lg:col-end-3 col-start-1 col-end-2 text-center">Desarrollado con 💙</p>
+          </footer>
     </main>
-    <footer class="md:px-5 lg:px-8 2xl:px-16 bg-indigo-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 fixed bottom-0 h-[70px] w-full grid grid-cols-3 items-center justify-items-center z-20">
+    <footer class="footerRepro md:px-5 lg:px-8 2xl:px-16 bg-indigo-900 rounded-md bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0 fixed bottom-0 h-[70px] w-full grid grid-cols-3 items-center justify-items-center z-20">
       <div class="infoFooterArtista w-auto">
       </div>
-      <div class="flex gap-4">
+      <div class="flex gap-4 items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061A1.125 1.125 0 0 1 21 8.689v8.122ZM11.25 16.811c0 .864-.933 1.406-1.683.977l-7.108-4.061a1.125 1.125 0 0 1 0-1.954l7.108-4.061a1.125 1.125 0 0 1 1.683.977v8.122Z" />
           </svg>      
-          <div class="w-10 h-10 bg-lime-500 rounded-full relative flex justify-center items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-play-fill absolute" viewBox="0 0 16 16">
-              <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
-            </svg>
-          </div>
+          <img src="MaterialSymbolsPlayCircle.svg" alt="Play">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061A1.125 1.125 0 0 1 3 16.811V8.69ZM12.75 8.689c0-.864.933-1.406 1.683-.977l7.108 4.061a1.125 1.125 0 0 1 0 1.954l-7.108 4.061a1.125 1.125 0 0 1-1.683-.977V8.69Z" />
           </svg>
       </div>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 mobileVolumen">
         <label for="default-range">
           <img src="./volume.svg" alt="volumen">
         </label>
         <input id="default-range" class="input-volumen w-24 h-2 bg-gray-800 rounded-3xl appearance-none cursor-pointer overflow-hidden" type="range" value="100" min="0" max="100">
       </div>
     </footer>
+    
     <script type="module" src="/src/Swiper.js"></script>
   </body> 
 </html>

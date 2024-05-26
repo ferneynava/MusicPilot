@@ -12,16 +12,108 @@ const redireccionarURI = 'http://localhost:5173/callback'
 
 const urlParams = new URLSearchParams(window.location.search)
 const code = urlParams.get('code')
-const swiperWrapper = document.querySelector('.swiper-wrapper')
-const infoArtista = document.querySelector('.infoArtista')
-const infoFooterArtista = document.querySelector('.infoFooterArtista')
-const misPlaylists = document.querySelector('.misPlaylists')
-const cancionesPlaylists = document.querySelector('.cancionesPlaylists')
-const misAlbumes = document.querySelector('.misAlbumes')
-const cancionesInfAlbum = document.querySelector('.cancionesInfAlbum')
-const misArtistas = document.querySelector('.misArtistas')
-const cancionesInfArtista = document.querySelector('.cancionesInfArtista')
-const enterBuscador = document.querySelector('#idBuscador')
+
+const selectors = {
+  swiperWrapper: '.swiper-wrapper',
+  containerInfo: '.containerInfo',
+  infoFooterArtista: '.infoFooterArtista',
+  misPlaylists: '.misPlaylists',
+  cancionesPlaylists: '.cancionesPlaylists',
+  devolverMisPlaylist: '.devolverMisPlaylist',
+  devolverMisAlbumes: '.devolverMisAlbumes',
+  devolverMisArtistas: '.devolverMisArtistas',
+  misAlbumes: '.misAlbumes',
+  cancionesInfAlbum: '.cancionesInfAlbum',
+  misArtistas: '.misArtistas',
+  misArtistasBusqueda: '.misArtistasBusqueda',
+  cancionesInfArtista: '.cancionesInfArtista',
+  search: '#idBuscador',
+  searchButton: '#searchButton',
+  enlaces: 'a',
+  achorArtistas: '.artistas',
+  idMisArtistas: '#idmisArtistas',
+  idMisArtistasBusqueda: '#idmisArtistasBusqueda',
+  footerInfo: '.footerInfo',
+  footerRepro: '.footerRepro',
+  perfil: '.perfil',
+  perfilMobile: '.perfil-mobile',
+  inicioLink: 'a[href="#Inicio"]',
+  playlistLink: 'a[href="#Playlist"]',
+  albumesLink: 'a[href="#Albumes"]',
+  artistasLink: 'a[href="#Artistas"]',
+  inicioSection: '#Inicio',
+  playlistSection: '#Playlist',
+  albumesSection: '#Albumes',
+  artistasSection: '#Artistas',
+  menu: '.Menu-Movil',
+  menuActive: '.menuActive',
+  menuCerrar: '.Menu-iphon_cerrar',
+  inicio: '.inicio',
+  playlist: '.playlist',
+  albumes: '.albumes',
+  artistas: '.artistasClickMovil'
+}
+
+const elements = {}
+
+for (const key in selectors) {
+  if (key === 'enlaces') {
+    elements[key] = document.querySelectorAll(selectors[key])
+  } else {
+    elements[key] = document.querySelector(selectors[key])
+  }
+}
+
+// Cambia de seccion al hacer click en el enlace
+elements.menu.addEventListener('click', () => {
+  const inactiveMenu = elements.menuActive.classList.contains('hidden')
+  if (inactiveMenu) {
+    elements.menuActive.classList.remove('hidden')
+  }
+})
+
+elements.menuCerrar.addEventListener('click', inactiveMenu)
+elements.inicio.addEventListener('click', inactiveMenu)
+elements.playlist.addEventListener('click', inactiveMenu)
+elements.albumes.addEventListener('click', inactiveMenu)
+elements.artistas.addEventListener('click', inactiveMenu)
+elements.devolverMisPlaylist.addEventListener('click', activePlaylist)
+function activePlaylist () {
+  elements.misPlaylists.classList.remove('mobilePlaylist')
+  elements.cancionesPlaylists.classList.add('mobilePlaylist')
+  elements.devolverMisPlaylist.classList.add('hidden')
+}
+elements.devolverMisAlbumes.addEventListener('click', activeAlbumes)
+function activeAlbumes () {
+  elements.misAlbumes.classList.remove('mobileInfAlbum')
+  elements.cancionesInfAlbum.classList.add('mobileInfAlbum')
+  elements.devolverMisAlbumes.classList.add('hidden')
+}
+elements.devolverMisArtistas.addEventListener('click', activeArtistas)
+function activeArtistas () {
+  elements.misArtistas.classList.remove('mobileInfArtista')
+  elements.cancionesInfArtista.classList.add('mobileInfArtista')
+  elements.devolverMisArtistas.classList.add('hidden')
+}
+
+function inactiveMenu () {
+  const inactiveMenu = elements.menuActive.classList.contains('hidden')
+  if (!inactiveMenu) {
+    elements.menuActive.classList.add('hidden')
+  }
+}
+
+// Cambia el color del enlace clickeado
+let ultimoEnlaceClickeado = null
+elements.enlaces.forEach(enlace => {
+  enlace.addEventListener('mousedown', function () {
+    if (ultimoEnlaceClickeado) {
+      ultimoEnlaceClickeado.style.color = 'white'
+    }
+    this.style.color = '#1ED760'
+    ultimoEnlaceClickeado = this
+  })
+})
 
 // Verifica si el usuario ya ha iniciado sesion
 if (window.location.search.includes('code')) {
@@ -44,28 +136,33 @@ if (window.location.search.includes('code')) {
   const Albumes = dataAPI[0][3]
   const Artistas = dataAPI[0][4]
 
+  const perfilHTML = `<div class="flex gap-4 items-center">
+  <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
+</div>`
+
+  elements.perfil.innerHTML = perfilHTML
+  elements.perfilMobile.innerHTML = perfilHTML
+
   tuMusica.items.forEach((element, index) => {
-    swiperWrapper.innerHTML += `
+    elements.swiperWrapper.innerHTML += `
       <div id="${index}" class="swiper-slide cursor-pointer">
-        <img src="${element.album.images[1].url}" alt="${element.name}" class="object-cover rounded-lg">
+        <img src="${element.track.album.images[1].url}" alt="${element.track.name}" class="object-cover rounded-lg swiper-lazy">
       </div>
       `
   })
-
   function Tracks (element, popularity) {
     this.tracksPlaylist = function () {
       return `
-        <div class="grid grid-cols-3 items-center justify-between cursor-pointer hover:text-[#1ED760]" onclick="tracksplaylist('${element.track.artists[0].id}', '${element.track.name.replace(/'/g, "\\'")}')">
+        <div id="selectCanciones" class="grid grid-cols-2 gap-8 items-center justify-between cursor-pointer hover:text-[#1ED760]" onclick="tracksplaylist('${element.track.artists[0].id}', '${element.track.name.replace(/'/g, "\\'")}')">
           
           <div class="flex flex-row gap-4 items-center">
             <img src="${element.track.album.images[0].url}" alt="${element.track.name}" class="rounded-lg h-20">
             <div class="flex flex-col gap-y-2">
               <h1 class="font-semibold">${element.track.name}</h1>
-              <p class="font-semibold text-slate-500">${element.track.artists[0].name}</p>
+              <p class="font-semibold text-slate-500 ">${element.track.artists[0].name}</p>
             </div>
           </div>
-          <p class="font-semibold text-slate-500">${element.track.album.name}</p>
-          <p class="font-semibold text-slate-500 justify-self-end">${element.added_at}</p>
+          <p class="font-semibold text-slate-500 text-end">${element.track.album.name}</p>
         </div>
       `
     }
@@ -78,7 +175,6 @@ if (window.location.search.includes('code')) {
           <div class="items-center">
             <div class="flex flex-col gap-y-2">
               <h1 class="font-semibold">${element.name} </h1>
-              
               <p class="font-semibold text-slate-500">${constartistNames}</p>
             </div>
           </div>
@@ -104,8 +200,8 @@ if (window.location.search.includes('code')) {
 
   async function updateArtistInfo () {
     const index = swiper.realIndex
-    const artistId = tuMusica.items[index].artists[0].id
-    const dataAPIupdateArtis = await datosAPI(token, artistId, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+    const artistId = tuMusica.items[index].track.artists[0].id
+    const dataAPIupdateArtis = await datosAPI(token, artistId, undefined, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
       const datos = data.then(data => {
         return [data, urlsLength]
       })
@@ -113,27 +209,27 @@ if (window.location.search.includes('code')) {
     })
     const longitudURL = dataAPIupdateArtis[1]
     const infoArt = dataAPIupdateArtis[0][longitudURL - 1]
-    infoArtista.innerHTML = `
-            <div class="containerInfo z-10 grid justify-center items-center p-5">
-              <div class="flex gap-4">
-                <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
-                <h1 class="font-semibold text-2xl">${usuarios.display_name} 💙</h1>
-              </div>
-              <div class="flex gap-9"> 
+
+    let nombreCancion = tuMusica.items[index].track.name
+    if (nombreCancion.length > 40) {
+      nombreCancion = nombreCancion.substring(0, 40) + '...'
+    }
+
+    elements.containerInfo.innerHTML = `
+              <div class="grid lg:grid-cols-2 grid-cols-1 gap-9"> 
                 <div class="flex flex-col gap-y-8 items-center justify-center"> 
-                  <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[index].name}</h1> 
-                  <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[index].artists[0].name}</h1>
-                  <ul class="relative z-10 flex gap-5 transition-colors text-textGray2 font-semibold text-base">
+                  <h1 class="font-semibold z-10 text-3xl">${nombreCancion}</h1> 
+                  <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[index].track.artists[0].name}</h1>
+                  <ul class="infoCancion relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base">
                     <li class="hover:text-white text-center">Genero: ${infoArt.genres[0]}</li>
                     <li class="hover:text-white text-center">Popularidad: ${infoArt.popularity}</li>
                     <li class="hover:text-white text-center">Followers: ${infoArt.followers.total}</li>
                   </ul>
                 </div>
-                <div class="w-[320px] h-[320px] relative z-20 ">
+                <div class="presentacionImg h-[320px] relative z-20">
                   <img src="${infoArt.images[1].url}" alt="${infoArt.name}" class="w-full h-full rounded-lg">
                 </div>
               </div>
-            </div>
     `
   }
 
@@ -142,9 +238,9 @@ if (window.location.search.includes('code')) {
     slides.forEach((slide) => {
       slide.addEventListener('click', async () => {
         const id = slide.id
-        const idArtistaSelect = tuMusica.items[id].artists[0].id
+        const idArtistaSelect = tuMusica.items[id].track.artists[0].id
 
-        const dataAPIupdateArtis = await datosAPI(token, idArtistaSelect, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+        const dataAPIupdateArtis = await datosAPI(token, idArtistaSelect, undefined, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
           const datos = data.then(data => {
             return [data, urlsLength]
           })
@@ -153,42 +249,41 @@ if (window.location.search.includes('code')) {
         const longitudURL = dataAPIupdateArtis[1]
         const infoArtClick = dataAPIupdateArtis[0][longitudURL - 1]
 
-        infoFooterArtista.innerHTML = `
+        let nombreCancion = tuMusica.items[id].track.name
+        if (nombreCancion.length > 40) {
+          nombreCancion = nombreCancion.substring(0, 40) + '...'
+        }
+
+        elements.infoFooterArtista.innerHTML = `
         <div class="flex flex-row items-center">
           <img src="${infoArtClick.images[2].url}" alt="${infoArtClick.name}" class="w-14 h-14 rounded-lg">
-            <div class="flex flex-col gap-y-2 items-center justify-center">
-              <h1 class="font-semibold text-xs ml-4">${tuMusica.items[id].name}</h1>
-              <h1 class="font-semibold text-lg ml-4">${infoArtClick.name}</h1>
+            <div class="infoArtista flex flex-col gap-y-2 items-center justify-center ml-4">
+              <h1 class="font-semibold text-xs">${nombreCancion}</h1>
+              <h1 class="font-semibold text-lg">${infoArtClick.name}</h1>
             </div>
         </div>
         `
-        infoArtista.innerHTML = `
-            <div class="containerInfo z-10 grid justify-center items-center p-5 h-auto">
-              <div class="flex gap-4">
-                <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
-                <h1 class="font-semibold text-2xl">${usuarios.display_name} 💙</h1>
-              </div>
-              <div class="flex gap-9">
+        elements.containerInfo.innerHTML = `
+              <div class="grid lg:grid-cols-2 grid-cols-1 gap-9">
                 <div class="flex flex-col gap-y-8 items-center justify-center"> 
-                  <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[id].name}</h1> 
-                  <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[id].artists[0].name}</h1>
-                  <ul class="relative z-10 flex gap-5 transition-colors text-textGray2 font-semibold text-base">
+                  <h1 class="font-semibold z-10 text-3xl">${nombreCancion}</h1> 
+                  <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[id].track.artists[0].name}</h1>
+                  <ul class="relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base">
                     <li class="hover:text-white text-center">Genero: ${infoArtClick.genres[0]}</li>
                     <li class="hover:text-white text-center">Popularidad: ${infoArtClick.popularity}</li>
                     <li class="hover:text-white text-center">Followers: ${infoArtClick.followers.total}</li>
                   </ul>
                 </div>
-              <div class="w-[320px] h-[320px] relative z-20 ">
-                <img src="${infoArtClick.images[1].url}" alt="${infoArtClick.name}" class="w-full h-full rounded-lg">
+                <div class="presentacionImg  h-[320px] relative z-20 ">
+                  <img src="${infoArtClick.images[1].url}" alt="${infoArtClick.name}" class="w-full h-full rounded-lg">
+                </div>
               </div>
-              </div>
-            </div>
     `
       })
     })
   })
 
-  const dataAPIupdateArtis = await datosAPI(token, tuMusica.items[0].artists[0].id, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+  const dataAPIupdateArtis = await datosAPI(token, tuMusica.items[0].track.artists[0].id, undefined, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
     const datos = data.then(data => {
       return [data, urlsLength]
     })
@@ -197,22 +292,27 @@ if (window.location.search.includes('code')) {
   const longitudURL = dataAPIupdateArtis[1]
   const infoArt = dataAPIupdateArtis[0][longitudURL - 1]
 
-  infoFooterArtista.innerHTML = `
+  let nombreCancion = tuMusica.items[0].track.name
+  if (nombreCancion.length > 40) {
+    nombreCancion = nombreCancion.substring(0, 40) + '...'
+  }
+
+  elements.infoFooterArtista.innerHTML = `
       <div class="flex flex-row items-center">
         <img src="${infoArt.images[2].url}" alt="${infoArt.name}" class="w-14 h-14 rounded-lg">
-          <div class="flex flex-col gap-y-2 items-center justify-center">
-            <h1 class="font-semibold text-xs ml-4">${tuMusica.items[0].name}</h1>
-            <h1 class="font-semibold text-lg ml-4">${infoArt.name}</h1>
+          <div class="infoArtista flex flex-col gap-y-2 items-center justify-center ml-4">
+            <h1 class="font-semibold text-xs">${nombreCancion}</h1>
+            <h1 class="font-semibold text-lg">${infoArt.name}</h1>
           </div>
       </div>
     `
 
-  misPlaylists.innerHTML = `
+  elements.misPlaylists.innerHTML = `
   <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Playlist ${usuarios.display_name}</h1>
-    <div class="grid gap-5 p-5 overflow-y-scroll">
+    <div class="grid gap-5 overflow-y-scroll">
       ${playlist.items.map((element) => `
-        <div class="grid grid-cols-2 cursor-pointer items-center hover:text-[#1ED760]" onclick="handleClick('${element.id}', '${element.images[0].url}', '${element.name}', '${element.description.replace(/'/g, "\\'")}')">
-          <img src="${element.images[0].url}" alt="${element.name}" class="rounded-lg h-20 place-self-center">
+        <div class="containerMisListas grid gap-4 lg:grid-cols-2 sm:grid-cols-1 cursor-pointer items-center hover:text-[#1ED760] lg:gap-12 sm:gap-4" onclick="handleClick('${element.id}', '${element.images[0].url}', '${element.name}', '${element.description.replace(/'/g, "\\'")}')">
+          <img src="${element.images[0].url}" alt="${element.name}" class="rounded-lg h-32">
           <h1 class="font-semibold text-base justify-self-start text-start">${element.name}</h1>
         </div>
       `).join('')
@@ -220,7 +320,7 @@ if (window.location.search.includes('code')) {
     </div>
   `
 
-  const dataAPIcancionesPlay = await datosAPI(token, undefined, playlist.items[0].id, undefined, undefined, undefined).then(([data, urlsLength]) => {
+  const dataAPIcancionesPlay = await datosAPI(token, undefined, playlist.items[0].id, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
     const datos = data.then(data => {
       return [data, urlsLength]
     })
@@ -229,8 +329,8 @@ if (window.location.search.includes('code')) {
   const longitudURLs = dataAPIcancionesPlay[1]
   const cancionesPlaylist = dataAPIcancionesPlay[0][longitudURLs - 1]
 
-  cancionesPlaylists.innerHTML = `  
-    <div class="flex items-center gap-10">
+  elements.cancionesPlaylists.innerHTML = `  
+    <div class="flex items-center gap-4 flex-col sm:flex-row">
       <img src="${playlist.items[0].images[0].url}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${playlist.items[0].name}</h1>
@@ -242,7 +342,6 @@ if (window.location.search.includes('code')) {
           <ul class="flex items-center justify-between">
             <li>Titulo</li>
             <li>Álbum</li>
-            <li>Fecha en la que se añadio</li>
           </ul>
     </nav>
     
@@ -255,7 +354,14 @@ if (window.location.search.includes('code')) {
   `
 
   window.handleClick = async (id, urlImagen, name, description) => {
-    const dataAPIcancionesPlay = await datosAPI(token, undefined, id, undefined, undefined, undefined).then(([data, urlsLength]) => {
+    const pantallaPequeña = window.matchMedia('(max-width: 1019px)').matches
+    if (pantallaPequeña) {
+      elements.misPlaylists.classList.add('mobilePlaylist')
+      elements.cancionesPlaylists.classList.remove('mobilePlaylist')
+      elements.devolverMisPlaylist.classList.remove('hidden')
+    }
+
+    const dataAPIcancionesPlay = await datosAPI(token, undefined, id, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
       const datos = data.then(data => {
         return [data, urlsLength]
       })
@@ -264,8 +370,8 @@ if (window.location.search.includes('code')) {
     const longitudURLs = dataAPIcancionesPlay[1]
     const cancionesPlaylist = dataAPIcancionesPlay[0][longitudURLs - 1]
 
-    cancionesPlaylists.innerHTML = `  
-      <div class="flex items-center gap-10">
+    elements.cancionesPlaylists.innerHTML = `  
+      <div class="flex items-center gap-4 flex-col sm:flex-row">
         <img src="${urlImagen}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${name}</h1>
@@ -277,7 +383,6 @@ if (window.location.search.includes('code')) {
             <ul class="flex items-center justify-between">
               <li>Titulo</li>
               <li>Álbum</li>
-              <li>Fecha en la que se añadio</li>
             </ul>
       </nav>
       
@@ -291,7 +396,7 @@ if (window.location.search.includes('code')) {
   }
 
   window.tracksplaylist = async (id, namePlaylist) => {
-    const dataAPIupdateArtis = await datosAPI(token, id, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
+    const dataAPIupdateArtis = await datosAPI(token, id, undefined, undefined, undefined, undefined, undefined).then(([data, urlsLength]) => {
       const datos = data.then(data => {
         return [data, urlsLength]
       })
@@ -300,23 +405,23 @@ if (window.location.search.includes('code')) {
     const longitudURLs = dataAPIupdateArtis[1]
     const infoArt = dataAPIupdateArtis[0][longitudURLs - 1]
 
-    infoFooterArtista.innerHTML = `
+    elements.infoFooterArtista.innerHTML = `
       <div class="flex flex-row items-center">
         <img src="${infoArt.images[2].url}" alt="${infoArt.name}" class="w-14 h-14 rounded-lg">
-        <div class="flex flex-col gap-y-2 items-center justify-center">
-            <h1 class="font-semibold text-xs ml-4">${namePlaylist}</h1>
-            <h1 class="font-semibold text-lg ml-4">${infoArt.name}</h1>
+        <div class="infoArtista flex flex-col gap-y-2 items-center justify-center ml-4">
+            <h1 class="font-semibold text-xs">${namePlaylist}</h1>
+            <h1 class="font-semibold text-lg">${infoArt.name}</h1>
           </div>
       </div>
       `
   }
 
-  misAlbumes.innerHTML = `
-    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Albumes ${usuarios.display_name}</h1>
-    <div class="grid gap-5 p-5 overflow-y-scroll">
+  elements.misAlbumes.innerHTML = `
+    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Álbumes ${usuarios.display_name}</h1>
+    <div class="grid gap-5 overflow-y-scroll">
       ${Albumes.items.map((element) => `
-        <div class=" grid grid-cols-2 cursor-pointer items-center hover:text-[#1ED760] " onclick="handleClickAlbumes('${element.album.id}', '${element.album.images[0].url}', '${element.album.name}', '${element.album.artists[0].name}')">
-        <img src="${element.album.images[0].url}" alt="${element.album.name}" class="rounded-lg h-20 place-self-center">
+        <div class="containerMisListas grid gap-4 lg:grid-cols-2 sm:grid-cols-1 cursor-pointer items-center hover:text-[#1ED760] lg:gap-12 sm:gap-4" onclick="handleClickAlbumes('${element.album.id}', '${element.album.images[0].url}', '${element.album.name}', '${element.album.artists[0].name}')">
+        <img src="${element.album.images[0].url}" alt="${element.album.name}" class="rounded-lg h-32">
         <h1 class="font-semibold text-base justify-self-start text-start">${element.album.name}</h1>
         </div>
       `).join('')
@@ -326,15 +431,16 @@ if (window.location.search.includes('code')) {
 
   const idAlbum = Albumes.items[0].album.id
 
-  const dataAPICancionesAlbumes = await datosAPI(token, undefined, undefined, idAlbum, undefined, undefined).then(([data, urlsLength]) => {
+  const dataAPICancionesAlbumes = await datosAPI(token, undefined, undefined, idAlbum, undefined, undefined, undefined).then(([data, urlsLength]) => {
     const datos = data.then(data => {
       return [data, urlsLength]
     })
     return datos
   })
+
   const longitudURLss = dataAPICancionesAlbumes[1]
   const cancionesAlbum = dataAPICancionesAlbumes[0][longitudURLss - 1]
-  const dataAPICancionesArtAlbum = await datosAPI(token, undefined, undefined, undefined, cancionesAlbum.items[0].id, undefined).then(([data, urlsLength]) => {
+  const dataAPICancionesArtAlbum = await datosAPI(token, undefined, undefined, undefined, cancionesAlbum.items[0].id, undefined, undefined).then(([data, urlsLength]) => {
     const datos = data.then(data => {
       return [data, urlsLength]
     })
@@ -344,8 +450,8 @@ if (window.location.search.includes('code')) {
 
   const infoArtAlbum = dataAPICancionesArtAlbum[0][longitudURLsss - 1]
 
-  cancionesInfAlbum.innerHTML = `  
-  <div class="flex items-center gap-10">
+  elements.cancionesInfAlbum.innerHTML = `  
+  <div class="flex items-center gap-4 flex-col sm:flex-row">
     <img src="${Albumes.items[0].album.images[0].url}" alt="${Albumes.items[0].album.name}" class="rounded-lg h-40">
     <div class="flex flex-col">
       <h1 class="font-semibold text-4xl text-white">${Albumes.items[0].album.name}</h1>
@@ -368,7 +474,14 @@ if (window.location.search.includes('code')) {
   `
 
   window.handleClickAlbumes = async (id, urlImagen, name, description) => {
-    const dataAPICancionesAlbumes = await datosAPI(token, undefined, undefined, id, undefined, undefined).then(([data, urlsLength]) => {
+    const pantallaPequeña = window.matchMedia('(max-width: 1019px)').matches
+    if (pantallaPequeña) {
+      elements.misAlbumes.classList.add('mobileInfAlbum')
+      elements.cancionesInfAlbum.classList.remove('mobileInfAlbum')
+      elements.devolverMisAlbumes.classList.remove('hidden')
+    }
+
+    const dataAPICancionesAlbumes = await datosAPI(token, undefined, undefined, id, undefined, undefined, undefined).then(([data, urlsLength]) => {
       const datos = data.then(data => {
         return [data, urlsLength]
       })
@@ -376,8 +489,8 @@ if (window.location.search.includes('code')) {
     })
     const longitudURLss = dataAPICancionesAlbumes[1]
     const cancionesAlbum = dataAPICancionesAlbumes[0][longitudURLss - 1]
-    cancionesInfAlbum.innerHTML = `  
-      <div class="flex items-center gap-10">
+    elements.cancionesInfAlbum.innerHTML = `  
+      <div class="flex items-center gap-4 flex-col sm:flex-row">
         <img src="${urlImagen}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${name}</h1>
@@ -400,13 +513,13 @@ if (window.location.search.includes('code')) {
       </div>
       `
   }
-
-  misArtistas.innerHTML = `
-    <h1 class="text-lg font-semibold text-white py-6 ">💙 Mis Artistas ${usuarios.display_name}</h1>
-    <div class="grid gap-5 p-5 overflow-y-scroll">
+  elements.idMisArtistasBusqueda.style.display = 'none'
+  elements.misArtistas.innerHTML = `
+    <h1 class="text-lg font-semibold text-white py-6 ">💙 Artistas ${usuarios.display_name}</h1>
+    <div class="grid gap-5 overflow-y-scroll">
       ${Artistas.artists.items.map((element) => `
-        <div class="grid grid-cols-2 cursor-pointer items-center hover:text-[#1ED760] " onclick="handleClickArtistas('${element.id}', '${element.images[0].url}', '${element.name.replace(/'/g, "\\'")}')">
-          <img src="${element.images[0].url}" alt="${element.name}" class="rounded-lg h-20 place-self-center">
+        <div class="containerMisListas grid gap-4 lg:grid-cols-2 sm:grid-cols-1 cursor-pointer items-center hover:text-[#1ED760] lg:gap-12 sm:gap-4" onclick="handleClickArtistas('${element.id}', '${element.images[0].url}', '${element.name.replace(/'/g, "\\'")}')">
+          <img src="${element.images[0].url}" alt="${element.name}" class="rounded-lg h-32 place-self-center">
           <h1 class="font-semibold text-base justify-self-start text-start">${element.name}</h1>
         </div>
       `).join('')
@@ -414,7 +527,7 @@ if (window.location.search.includes('code')) {
     </div>
   `
 
-  const dataAPICancionesPopularesArtista = await datosAPI(token, undefined, undefined, undefined, undefined, Artistas.artists.items[0].id).then(([data, urlsLength]) => {
+  const dataAPICancionesPopularesArtista = await datosAPI(token, undefined, undefined, undefined, undefined, Artistas.artists.items[0].id, undefined).then(([data, urlsLength]) => {
     const datos = data.then(data => {
       return [data, urlsLength]
     })
@@ -424,8 +537,8 @@ if (window.location.search.includes('code')) {
 
   const artistasTracksTop = dataAPICancionesPopularesArtista[0][longitudURLssss - 1]
 
-  cancionesInfArtista.innerHTML = `
-    <div class="flex items-center gap-10">
+  elements.cancionesInfArtista.innerHTML = `
+    <div class="flex items-center gap-4 flex-col sm:flex-row">
       <img src="${Artistas.artists.items[0].images[0].url}" alt="${Artistas.artists.items[0].name}" class="rounded-lg h-40">
       <div class="flex flex-col">
         <h1 class="font-semibold text-4xl text-white">${Artistas.artists.items[0].name}</h1>
@@ -441,7 +554,13 @@ if (window.location.search.includes('code')) {
   `
 
   window.handleClickArtistas = async (id, urlImagen, name) => {
-    const dataAPICancionesPopularesArtista = await datosAPI(token, undefined, undefined, undefined, undefined, id).then(([data, urlsLength]) => {
+    const pantallaPequeña = window.matchMedia('(max-width: 1019px)').matches
+    if (pantallaPequeña) {
+      elements.misArtistas.classList.add('mobileInfArtista')
+      elements.cancionesInfArtista.classList.remove('mobileInfArtista')
+      elements.devolverMisArtistas.classList.remove('hidden')
+    }
+    const dataAPICancionesPopularesArtista = await datosAPI(token, undefined, undefined, undefined, undefined, id, undefined).then(([data, urlsLength]) => {
       const datos = data.then(data => {
         return [data, urlsLength]
       })
@@ -449,9 +568,8 @@ if (window.location.search.includes('code')) {
     })
     const longitudURLssss = dataAPICancionesPopularesArtista[1]
     const artistasTracksTop = dataAPICancionesPopularesArtista[0][longitudURLssss - 1]
-
-    cancionesInfArtista.innerHTML = `
-      <div class="flex items-center gap-10">
+    elements.cancionesInfArtista.innerHTML = `
+      <div class="flex items-center gap-4 flex-col sm:flex-row">
         <img src="${urlImagen}" alt="${name}" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${name}</h1>
@@ -467,14 +585,56 @@ if (window.location.search.includes('code')) {
       `
   }
 
-  enterBuscador.addEventListener('keydown', (event) => {
+  // Buscador de canciones y artistas en la barra de navegacion de la pagina web
+  elements.search.addEventListener('keydown', async (event) => {
+    if (ultimoEnlaceClickeado) {
+      ultimoEnlaceClickeado.style.color = 'white'
+    }
+
     if (event.key === 'Enter') {
       // Aquí va el código que se ejecutará cuando se presione Enter
-      console.log('Enter fue presionados')
+      searchArtistas()
     }
   })
 
+  elements.searchButton.addEventListener('click', async () => {
+    if (ultimoEnlaceClickeado) {
+      ultimoEnlaceClickeado.style.color = 'white'
+    }
+
+    // Aquí va el código que se ejecutará cuando se presione Enter
+    searchArtistas()
+  })
+
+  async function searchArtistas () {
+    window.location.href = '#Artistas'
+    elements.achorArtistas.style.color = '#1ED760'
+    elements.idMisArtistas.style.display = 'none'
+    elements.idMisArtistasBusqueda.style.display = 'block'
+    ultimoEnlaceClickeado = elements.achorArtistas
+    const dataAPIBuscador = await datosAPI(token, undefined, undefined, undefined, undefined, undefined, elements.search.value).then(([data, urlsLength]) => {
+      const datos = data.then(data => {
+        return [data, urlsLength]
+      })
+      return datos
+    })
+    const longitudArray = dataAPIBuscador[1]
+    const artistasBuscador = dataAPIBuscador[0][longitudArray - 1]
+    elements.misArtistasBusqueda.innerHTML = `
+        <h1 class="text-lg font-semibold text-white py-6 ">💙 Artistas ${usuarios.display_name}</h1>
+          <div class="grid gap-5 p-5 overflow-y-scroll">
+          ${artistasBuscador.artists.items.map((element) => `
+            <div class="grid grid-cols-2 gap-12 cursor-pointer items-center hover:text-[#1ED760]" onclick="handleClickArtistas('${element.id}', '${element.images[0].url}', '${element.name.replace(/'/g, "\\'")}')">
+              <img src="${element.images[0].url}" alt="${element.name}" class="rounded-lg h-32 place-self-center">
+              <h1 class="font-semibold text-base justify-self-start text-start">${element.name}</h1>
+            </div>
+          `).join('')}
+          </div>
+      `
+  }
+
   swiper.on('slideChange', updateArtistInfo)
+
   swiper.init()
 } else {
   inicioAutorizacion()
@@ -537,15 +697,16 @@ async function obtenerToken () {
 
 // Funcion para obtener datos de la API de Spotify
 
-async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArtista) {
-  const urls = ['https://api.spotify.com/v1/me', 'https://api.spotify.com/v1/me/top/tracks?limit=50', 'https://api.spotify.com/v1/me/playlists', 'https://api.spotify.com/v1/me/albums', 'https://api.spotify.com/v1/me/following?type=artist']
+async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArtista, searchArtist) {
+  const urls = ['https://api.spotify.com/v1/me', 'https://api.spotify.com/v1/me/tracks?limit=20', 'https://api.spotify.com/v1/me/playlists', 'https://api.spotify.com/v1/me/albums', 'https://api.spotify.com/v1/me/following?type=artist']
 
   const idToUrl = {
     id: id && `https://api.spotify.com/v1/artists/${id}`,
     idPlaylist: idPlaylist && `https://api.spotify.com/v1/playlists/${idPlaylist}/tracks`,
     idAlbum: idAlbum && `https://api.spotify.com/v1/albums/${idAlbum}/tracks`,
     idPista: idPista && `https://api.spotify.com/v1/tracks/${idPista}`,
-    idPopularesArtista: idPopularesArtista && `https://api.spotify.com/v1/artists/${idPopularesArtista}/top-tracks?market=ES`
+    idPopularesArtista: idPopularesArtista && `https://api.spotify.com/v1/artists/${idPopularesArtista}/top-tracks?market=ES`,
+    idBuscador: searchArtist && `https://api.spotify.com/v1/search?q=${searchArtist}&type=artist`
   }
 
   const urlss = Object.values(idToUrl).filter(Boolean)
@@ -564,3 +725,56 @@ async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArt
 
   return [datosPromesa, urls.length]
 }
+
+// Observadores de las secciones de la pagina
+// eslint-disable-next-line no-undef
+const observerSectionInicio = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    elements.inicioLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
+  })
+}
+, {
+  threshold: 0.5
+})
+observerSectionInicio.observe(elements.inicioSection)
+
+// eslint-disable-next-line no-undef
+const observerSection = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    elements.playlistLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
+  })
+}, {
+  threshold: 0.5
+})
+observerSection.observe(elements.playlistSection)
+
+// eslint-disable-next-line no-undef
+const observerSectionAlbumes = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    elements.albumesLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
+  })
+}, {
+  threshold: 0.5
+})
+observerSectionAlbumes.observe(elements.albumesSection)
+
+// eslint-disable-next-line no-undef
+const observerSectionArtistas = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    elements.artistasLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
+  })
+}, {
+  threshold: 0.5
+})
+observerSectionArtistas.observe(elements.artistasSection)
+
+// eslint-disable-next-line no-undef
+const observerFooter = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    elements.footerRepro.style.visibility = entry.isIntersecting ? 'hidden' : 'visible'
+  })
+}, {
+  threshold: 0.5
+})
+
+observerFooter.observe(elements.footerInfo)
