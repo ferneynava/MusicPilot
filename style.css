@@ -71,8 +71,8 @@ body {
 }
 
 @media (max-width: 1019px) {
-    .headerDesktop{
-        padding: 0 2rem;
+    .headerDesktop, .footerRepro{
+        padding: 0 4rem;
     }
 
     .container {
@@ -88,23 +88,7 @@ body {
         justify-self: center;
     }
 
-    .presentacionImg{
-        display: none;
-    }
-
-    .mobilePlaylist{
-        display: none;
-    }
-
-    .mobileInfAlbum{
-        display: none;
-    }
-
-    .mobileInfArtista{
-        display: none;
-    }
-
-    .Menu-container{
+    .presentacionImg, .mobilePlaylist, .infoAlbumMovil, .mobileInfArtista, .Menu-container, .infoArtistaMobile,  .mobileVolumen{
         display: none;
     }
 
@@ -120,9 +104,6 @@ body {
     .footerRepro {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    
-    .mobileVolumen{
-        display: none;
-    }
+
 
 }

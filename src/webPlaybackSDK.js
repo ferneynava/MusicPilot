@@ -1,51 +1,76 @@
+/* eslint-disable no-undef */
 /* eslint-disable camelcase */
+let isPlaying = false
+let currentTrack = null
+const volumen = document.getElementById('default-range')
+
 export async function iniciarSpotifyWebPlaybackSDK (token) {
-  // eslint-disable-next-line no-undef
+  let device_id
+  let rangeVolume
+
   const player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
-    getOAuthToken: cb => { cb(token) },
-    volume: 1
+    getOAuthToken: cb => { cb(token) }
   })
 
-  // Error handling
-  player.addListener('initialization_error', ({ message }) => { console.error(message) })
-  player.addListener('authentication_error', ({ message }) => { console.error(message) })
-  player.addListener('account_error', ({ message }) => { console.error(message) })
-  player.addListener('playback_error', ({ message }) => { console.error(message) })
+  player.addListener('initialization_error', ({ message }) => { })
+  player.addListener('authentication_error', ({ message }) => { })
+  player.addListener('account_error', ({ message }) => { })
 
-  // Playback status updates
-  player.addListener('player_state_changed', state => { console.log(state) })
-
-  // Ready
-  // eslint-disable-next-line camelcase
-  player.addListener('ready', ({ device_id }) => {
-    console.log('Ready with Device ID', device_id)
-    // reproducirCancion(token, device_id)
+  player.addListener('player_state_changed', state => {
+    isPlaying = !state.paused
   })
+
+  player.addListener('ready', ({ device_id: id }) => {
+    device_id = id
+  })
+
+  player.setName('SpotMix')
+
+  player.addListener('not_ready', ({ device_id }) => {
+  })
+
+  volumen.addEventListener('input', function () {
+    rangeVolume = volumen.value
+    console.log(rangeVolume)
+    player.setVolume(rangeVolume / 100).then(() => {
+    })
+  })
+
+  document.getElementById('Play').onclick = function () {
+    const idCancion = localStorage.getItem('idTrack')
+    if (isPlaying) {
+      player.pause().then(() => {
+      })
+    } else {
+      if (idCancion === currentTrack) {
+        player.resume().then(() => {
+        })
+      } else {
+        reproducirCancion(token, device_id, idCancion)
+        currentTrack = idCancion
+      }
+    }
+  }
+
   player.setName('SpotMix')
   // Not Ready
   player.addListener('not_ready', ({ device_id }) => {
-    console.log('Device ID has gone offline', device_id)
   })
 
-  //   document.getElementById('Play').onclick = function () {
-  //     player.togglePlay()
-  //   }
-
-  // Connect to the player!
   player.connect()
 }
 
-// async function reproducirCancion (token, device_id) {
-//   const IDcancion = '0Ueebi9UrB6jtIcGYal2uM'
-//   await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
-//     method: 'PUT',
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       uris: [`spotify:track:${IDcancion}`]
-//     })
-//   })
-// }
+async function reproducirCancion (token, device_id, idCancion) {
+  isPlaying = true
+  await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${device_id}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      uris: [`spotify:track:${idCancion}`]
+    })
+  })
+}
