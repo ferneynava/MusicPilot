@@ -10,7 +10,9 @@ export async function iniciarSpotifyWebPlaybackSDK (token) {
 
   const player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
-    getOAuthToken: cb => { cb(token) }
+    getOAuthToken: cb => {
+      cb(token)
+    }
   })
 
   player.addListener('initialization_error', ({ message }) => { })
@@ -32,7 +34,6 @@ export async function iniciarSpotifyWebPlaybackSDK (token) {
 
   volumen.addEventListener('input', function () {
     rangeVolume = volumen.value
-    console.log(rangeVolume)
     player.setVolume(rangeVolume / 100).then(() => {
     })
   })
