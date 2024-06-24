@@ -70,6 +70,17 @@ body {
     border-radius: 10px;
 }
 
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fadeIn {
+    opacity: 1;
+    animation: fadeIn 0.4s ease-out;
+}
+
 @media (max-width: 1019px) {
     .headerDesktop, .footerRepro{
         padding: 0 4rem;
@@ -88,7 +99,7 @@ body {
         justify-self: center;
     }
 
-    .presentacionImg, .mobilePlaylist, .infoAlbumMovil, .mobileInfArtista, .Menu-container, .infoArtistaMobile,  .mobileVolumen{
+    .presentacionImg, .mobilePlaylist, .infoAlbumMovil, .mobileInfArtista, .Menu-container, .infoArtistaMobile,  .mobileVolumen, .asidePerfilSesion{
         display: none;
     }
 
@@ -104,6 +115,7 @@ body {
     .footerRepro {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
 
 
 }

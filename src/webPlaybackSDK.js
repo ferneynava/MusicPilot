@@ -3,11 +3,13 @@
 let isPlaying = false
 let currentTrack = null
 const volumen = document.getElementById('default-range')
+const warningCuentaPro = document.querySelector('.warningCuentaPro')
+const closeWarning = document.querySelector('.closeWarning')
 
 export async function iniciarSpotifyWebPlaybackSDK (token) {
   let device_id
   let rangeVolume
-
+  let cuentaPremium
   const player = new Spotify.Player({
     name: 'Web Playback SDK Quick Start Player',
     getOAuthToken: cb => {
@@ -17,7 +19,10 @@ export async function iniciarSpotifyWebPlaybackSDK (token) {
 
   player.addListener('initialization_error', ({ message }) => { })
   player.addListener('authentication_error', ({ message }) => { })
-  player.addListener('account_error', ({ message }) => { })
+  player.addListener('account_error', ({ message }) => {
+    cuentaPremium = true
+  })
+  player.addListener('playback_error', ({ message }) => { })
 
   player.addListener('player_state_changed', state => {
     isPlaying = !state.paused
@@ -40,6 +45,11 @@ export async function iniciarSpotifyWebPlaybackSDK (token) {
 
   document.getElementById('Play').onclick = function () {
     const idCancion = localStorage.getItem('idTrack')
+    if (cuentaPremium) {
+      warningCuentaPro.classList.remove('hidden')
+      warningCuentaPro.classList.add('fadeIn')
+    }
+
     if (isPlaying) {
       player.pause().then(() => {
       })
@@ -75,3 +85,7 @@ async function reproducirCancion (token, device_id, idCancion) {
     })
   })
 }
+
+closeWarning.addEventListener('click', () => {
+  warningCuentaPro.classList.add('hidden')
+})

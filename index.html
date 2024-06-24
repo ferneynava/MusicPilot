@@ -42,13 +42,21 @@
           <div class="Menu-container perfil">
           </div>
 
+          <aside class="asidePerfilSesion w-36 h-12 bg-[#2b2b2b] rounded-xl top-16 right-7 absolute hidden">
+            <div class="flex flex-col justify-center h-full ml-4 ">
+              <ul class="flex items-center text-base">
+                <li><a class="cerrarSesion hover:text-[#1ED760]">Cerrar Sesión</a></li>
+              </ul>
+            </div>
+          </aside>
+
           <a class="Menu-Movil lg:hidden" href="#">
             <img src="Menu.svg" alt="Menu">
           </a>
         </div>
         
-        <div class="menuActive hidden">
-          <div class="headerMobile bg-[#0b131a] flex flex-col justify-center items-center h-screen w-full bordergap-4 inset-0 absolute rounded-bl-[50.5rem] gap-7 before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+        <div class="menuActive hidden ">
+          <div class="headerMobile bg-[#0b131a] flex flex-col justify-center items-center h-screen w-full bordergap-4 inset-0 absolute rounded-bl-[50.5rem] gap-7 before:absolute before:bg-gradientBottom after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
             <a class="Menu-iphon_cerrar z-10" href="#">
               <svg class="absolute top-8 right-8 h-12 w-12" stroke="currentColor" fill="#FAFAFA" stroke-width="0" viewBox="0 0 1024 1024" height="2.3rem" width="2.3rem" xmlns="http://www.w3.org/2000/svg"><path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path></svg>
             </a>
@@ -56,17 +64,30 @@
             </div>
             <nav class="z-10">
               <ul class="flex gap-8 items-center flex-col text-lg font-semibold">
-                <li><a class="inicio hover:text-[#1ED760]" href="#Inicio">Inicio</a></li>
-                <li><a class="playlist hover:text-[#1ED760]" href="#Playlist">Playlist</a></li>
-                <li> <a class="albumes hover:text-[#1ED760]" href="#Albumes">Álbumes</a></li>
-                <li><a class="artistasClickMovil artistas hover:text-[#1ED760]" href="#Artistas">Artistas</a></li>
+                <li><a class="inicio" href="#Inicio">Inicio</a></li>
+                <li><a class="playlist" href="#Playlist">Playlist</a></li>
+                <li><a class="albumes " href="#Albumes">Álbumes</a></li>
+                <li><a class="artistasClickMovil artistas" href="#Artistas">Artistas</a></li>
+                <li><a class="cerrarSesionMovil">Cerrar sesión</a></li>
               </ul>
             </nav>
           </div>
         </div>
+
+        <div class="warningCuentaPro hidden">
+          <div class="bg-[#0b131a49] flex justify-center items-start h-screen w-full inset-0 absolute before:absolute before:bg-gradientBottom after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+            <div class="z-10 bg-[#2b2b2b] px-8 py-8 rounded-xl absolute">
+              <a class="closeWarning absolute top-[1.2rem]  right-8 h-8 w-8 z-10" href="#">
+                <svg stroke="currentColor" fill="#FAFAFA" stroke-width="0" viewBox="0 0 1024 1024" height="2.3rem" width="2.3rem" xmlns="http://www.w3.org/2000/svg"><path d="M563.8 512l262.5-312.9c4.4-5.2.7-13.1-6.1-13.1h-79.8c-4.7 0-9.2 2.1-12.3 5.7L511.6 449.8 295.1 191.7c-3-3.6-7.5-5.7-12.3-5.7H203c-6.8 0-10.5 7.9-6.1 13.1L459.4 512 196.9 824.9A7.95 7.95 0 0 0 203 838h79.8c4.7 0 9.2-2.1 12.3-5.7l216.5-258.1 216.5 258.1c3 3.6 7.5 5.7 12.3 5.7h79.8c6.8 0 10.5-7.9 6.1-13.1L563.8 512z"></path></svg>
+              </a>
+              <h1 class="text-2xl font-bold text-[#1ED760] my-3">¡Hola!</h1>
+              <p class="text-center">Para poder disfrutar de la experiencia completa de SpotMix, necesitas una cuenta de Spotify Premium.</p>
+            </div>
+          </div> 
+        </div>
     </header>
     <main class="w-screen h-screen relative overflow-x-hidden snap-mandatory snap-y scroll-smooth overflow-auto">
-          <section id="Inicio" class="w-screen h-screen before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-[''] snap-center">
+          <section id="Inicio" class="w-screen h-screen before:absolute before:bg-gradientBottom after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-[''] snap-center">
             <div class="absolute top-0 bottom-0 h-full w-full">
               <img class="h-full w-full object-cover object-center absolute inset-0" src="Graffiti_C_Mac.png" alt="Background">
             </div>
@@ -103,7 +124,7 @@
               </div>
             </div>
           </section>
-          <section id="Playlist" class="relative flex justify-center w-screen h-screen bg-[#0b131a] snap-center before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+          <section id="Playlist" class="relative flex justify-center w-screen h-screen bg-[#0b131a] snap-center before:absolute before:bg-gradientBottom after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
             <div class="container h-full grid grid-cols-custom px-16 gap-5 py-14 ">
               <a class="devolverMisPlaylist hidden z-10" href="#">
                 <img class="absolute top-16 left-5 h-12 w-12" src="arrow-circle-left.svg" alt="Devolver">
@@ -114,7 +135,7 @@
               </section>
             </div>
           </section>
-          <section id="Albumes" class="relative w-screen flex justify-center h-screen bg-[#0b131a] snap-center before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+          <section id="Albumes" class="relative w-screen flex justify-center h-screen bg-[#0b131a] snap-center before:absolute before:bg-gradientBottom after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
             <div class="container h-full grid grid-cols-custom px-16 gap-5 py-14 ">
               <a class="devolverMisAlbumes hidden z-10" href="#">
                 <img class="absolute top-16 left-5 h-12 w-12" src="arrow-circle-left.svg" alt="Devolver">
@@ -125,7 +146,7 @@
               </section>
             </div>
           </section>
-          <section id="Artistas" class="relative w-screen h-screen flex justify-center bg-[#0b131a] snap-center before:absolute before:bg-gradiantBottom after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
+          <section id="Artistas" class="relative w-screen h-screen flex justify-center bg-[#0b131a] snap-center before:absolute before:bg-gradientBottom after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] before:inset-0 before:z-[1] before:content-['']">
             <div class="container h-full grid grid-cols-custom px-16 gap-5 py-14">
               <a class="devolverMisArtistas hidden z-10" href="#">
                 <img class="absolute top-16 left-5 h-12 w-12" src="arrow-circle-left.svg" alt="Devolver">
@@ -138,7 +159,7 @@
               </section>
             </div>  
           </section>
-          <footer class="after:absolute after:bg-gradiantTop after:inset-0 after:z-[1] after:content-[''] snap-center before:absolute before:bg-gradiantBottom before:inset-0 before:z-[1] before:content-[''] footerInfo grid lg:grid-cols-2 grid-cols-1 relative bg-[#0b131a] px-16 py-10 items-center gap-y-2">
+          <footer class="after:absolute after:bg-gradientTop after:inset-0 after:z-[1] after:content-[''] snap-center before:absolute before:bg-gradientBottom before:inset-0 before:z-[1] before:content-[''] footerInfo grid lg:grid-cols-2 grid-cols-1 relative bg-[#0b131a] px-16 py-10 items-center gap-y-2">
             <div class="flex flex-col justify-center text-white px-6 gap-2 z-10 w-48 h-auto justify-self-center">
               <h1>SPOTMIX</h1>
               <p class="text-xs">Entretenimiento con la API de Spotify. Nuestra página web ofrece una experiencia única utilizando la API de Spotify, diseñada exclusivamente con propósitos educativos.</p>

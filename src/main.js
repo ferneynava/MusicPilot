@@ -1,12 +1,10 @@
 /* eslint-disable no-const-assign */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import cryptoJs from 'crypto-js'
 import { nanoid } from 'nanoid'
 import { iniciarSpotifyWebPlaybackSDK } from './webPlaybackSDK.js'
 import { swiper } from './Swiper.js'
-import { info } from 'autoprefixer'
 
 const clienID = '908cc6491f5448249c5348685fd2a696'
 const redireccionarURI = 'http://localhost:5173/callback'
@@ -55,7 +53,10 @@ const selectors = {
   containerPlay_Hover: '.containerPlay_Hover',
   play: '#Play',
   siguiente: '#Siguiente',
-  anterior: '#Anterior'
+  anterior: '#Anterior',
+  cerrarSesion: '.cerrarSesion',
+  asidePerfilSesion: '.asidePerfilSesion',
+  cerrarSesionMovil: '.cerrarSesionMovil'
 }
 
 const elements = {}
@@ -98,7 +99,6 @@ function codigoCaracteres (codeVerifier) {
 
 async function obtenerToken () {
   const codigoVerificado = window.localStorage.getItem('codigoVerificado')
-
   const body = new URLSearchParams()
   body.append('client_id', clienID)
   body.append('grant_type', 'authorization_code')
@@ -173,8 +173,8 @@ function assignEvents (elementSiguiente, elementAnterior, elementContainerPlayHo
   })
 
   elementContainerPlayHover.addEventListener('click', () => {
-    elementsPlay.style.transition = 'all 0.8s ease'
-    elementsPlay.style.transform = 'scale(1.3)'
+    elementsPlay.style.transition = 'all 0.2s ease'
+    elementsPlay.style.transform = 'scale(1)'
   })
 
   elementMenuCerrar.addEventListener('click', inactiveMenu)
@@ -265,9 +265,26 @@ if (window.location.search.includes('code')) {
     arrayIdMisPlaylis.push(element.id)
   )
 
-  const perfilHTML = `<div class="flex gap-4 items-center">
-  <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
-</div>`
+  const perfilHTML = `
+    <div class="flex gap-4 items-center cursor-pointer" onclick="clickPerfil()">
+      <img src="${usuarios.images[0].url}" alt="${usuarios.display_name}" class="w-8 h-8 rounded-lg">
+    </div>
+`
+
+  window.clickPerfil = function () {
+    elements.asidePerfilSesion.classList.toggle('hidden')
+  }
+
+  elements.cerrarSesion.onclick = function () {
+    elements.asidePerfilSesion.classList.toggle('hidden')
+    window.localStorage.clear()
+    inicioAutorizacion()
+  }
+
+  elements.cerrarSesionMovil.onclick = function () {
+    window.localStorage.clear()
+    inicioAutorizacion()
+  }
 
   elements.perfil.innerHTML = perfilHTML
   elements.perfilMobile.innerHTML = perfilHTML
@@ -294,10 +311,10 @@ if (window.location.search.includes('code')) {
                 <div class="flex flex-col gap-y-8 items-center justify-center"> 
                   <h1 class="font-semibold z-10 text-3xl">${nombreCancion}</h1> 
                   <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[index].track.artists[0].name}</h1>
-                  <ul class="infoCancion relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base">
-                    <li class="hover:text-white text-center">Genero: ${infoArt.genres[0]}</li>
-                    <li class="hover:text-white text-center">Popularidad: ${infoArt.popularity}</li>
-                    <li class="hover:text-white text-center">Followers: ${infoArt.followers.total}</li>
+                  <ul class="infoCancion relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base justify-center">
+                    <li class="hover:text-white text-center text-[#AACCFF]">Genero: ${infoArt.genres[0]}</li>
+                    <li class="hover:text-white text-center text-[#AACCFF]">Popularidad: ${infoArt.popularity}</li>
+                    <li class="hover:text-white text-center text-[#AACCFF]">Followers: ${infoArt.followers.total}</li>
                   </ul>
                 </div>
                 <div class="presentacionImg h-[320px] relative z-20">
@@ -370,10 +387,10 @@ if (window.location.search.includes('code')) {
                 <div class="flex flex-col gap-y-8 items-center justify-center"> 
                   <h1 class="font-semibold z-10 text-3xl">${nombreCancion}</h1> 
                   <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[id].track.artists[0].name}</h1>
-                  <ul class="relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base">
-                    <li class="hover:text-white text-center">Genero: ${infoArtClick.genres[0]}</li>
-                    <li class="hover:text-white text-center">Popularidad: ${infoArtClick.popularity}</li>
-                    <li class="hover:text-white text-center">Followers: ${infoArtClick.followers.total}</li>
+                  <ul class="relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base justify-center">
+                    <li class="hover:text-white text-center text-[#AACCFF]">Genero: ${infoArtClick.genres[0]}</li>
+                    <li class="hover:text-white text-center text-[#AACCFF]">Popularidad: ${infoArtClick.popularity}</li>
+                    <li class="hover:text-white text-center text-[#AACCFF]">Followers: ${infoArtClick.followers.total}</li>
                   </ul>
                 </div>
                 <div class="presentacionImg  h-[320px] relative z-20 ">
@@ -474,10 +491,10 @@ if (window.location.search.includes('code')) {
             <img src="${element.track.album.images[0].url}" alt="${element.track.name}" class="rounded-lg h-20">
             <div class="flex flex-col gap-y-2">
               <h1 class="font-semibold">${element.track.name}</h1>
-              <p class="font-semibold text-slate-500 ">${element.track.artists[0].name}</p>
+              <p class="font-semibold text-[#AACCFF] ">${element.track.artists[0].name}</p>
             </div>
           </div>
-          <p class="font-semibold text-slate-500 text-end">${element.track.album.name}</p>
+          <p class="font-semibold text-[#AACCFF] text-end">${element.track.album.name}</p>
         </div>
       `
     }
@@ -490,10 +507,10 @@ if (window.location.search.includes('code')) {
           <img src="${element.track.album.images[0].url}" alt="${element.track.name}" class="rounded-lg h-20">
           <div class="flex flex-col gap-y-2">
             <h1 class="font-semibold">${element.track.name}</h1>
-            <p class="font-semibold text-slate-500 ">${element.track.artists[0].name}</p>
+            <p class="font-semibold text-[#AACCFF] ">${element.track.artists[0].name}</p>
           </div>
         </div>
-        <p class="font-semibold text-slate-500 text-end">${element.track.album.name}</p>
+        <p class="font-semibold text-[#AACCFF] text-end">${element.track.album.name}</p>
       </div>
     `
     }
@@ -510,10 +527,10 @@ if (window.location.search.includes('code')) {
           <div class="items-center">
             <div class="flex flex-col gap-y-2">
               <h1 class="font-semibold">${element.name} </h1>
-              <p class="font-semibold text-slate-500">${constartistNames}</p>
+              <p class="font-semibold text-[#AACCFF">${constartistNames}</p>
             </div>
           </div>
-          <p class="font-semibold text-slate-500 justify-self-end">${popularity}</p>
+          <p class="font-semibold text-[#AACCFF] justify-self-end">${popularity}</p>
         </div>
       `
     }
@@ -526,10 +543,10 @@ if (window.location.search.includes('code')) {
           <div class="items-center">
             <div class="flex flex-col gap-y-2">
               <h1 class="font-semibold">${element.name} </h1>
-              <p class="font-semibold text-slate-500">${constartistNames}</p>
+              <p class="font-semibold text-[#AACCFF]">${constartistNames}</p>
             </div>
           </div>
-          <p class="font-semibold text-slate-500 justify-self-end">${popularity}</p>
+          <p class="font-semibold text-[#AACCFF] justify-self-end">${popularity}</p>
         </div>
       `
     }
@@ -595,7 +612,7 @@ if (window.location.search.includes('code')) {
       <img src="${playlist.items[0].images[0].url}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${playlist.items[0].name}</h1>
-          <p class="font-semibold text-slate-500">${playlist.items[0].description.replace(/'/g, "\\'")}</p>
+          <p class="font-semibold text-[#AACCFF]">${playlist.items[0].description.replace(/'/g, "\\'")}</p>
         </div>
     </div>
       
@@ -667,7 +684,7 @@ if (window.location.search.includes('code')) {
     <img src="${Albumes.items[0].album.images[0].url}" alt="${Albumes.items[0].album.name}" class="rounded-lg h-40">
     <div class="flex flex-col">
       <h1 class="font-semibold text-4xl text-white">${nombreAlbum}</h1>
-      <p class="font-semibold text-slate-500">${Albumes.items[0].album.artists[0].name}</p>
+      <p class="font-semibold text-[#AACCFF]">${Albumes.items[0].album.artists[0].name}</p>
     </div>
   </div>
 
@@ -1195,11 +1212,10 @@ async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArt
 
   const urlss = Object.values(idToUrl).filter(Boolean)
   urls.push(...urlss)
-
   const promises = urls.map(url => fetch(url, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: 'Bearer ' + token,
       'Content-Type': 'application/json'
     },
     type: 'tracks'
@@ -1211,7 +1227,7 @@ async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArt
 }
 
 // Observadores de las secciones de la pagina
-// eslint-disable-next-line no-undef
+
 const observerSectionInicio = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     elements.inicioLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
@@ -1222,7 +1238,6 @@ const observerSectionInicio = new IntersectionObserver(entries => {
 })
 observerSectionInicio.observe(elements.inicioSection)
 
-// eslint-disable-next-line no-undef
 const observerSection = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     elements.playlistLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
@@ -1232,7 +1247,6 @@ const observerSection = new IntersectionObserver(entries => {
 })
 observerSection.observe(elements.playlistSection)
 
-// eslint-disable-next-line no-undef
 const observerSectionAlbumes = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     elements.albumesLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
@@ -1242,7 +1256,6 @@ const observerSectionAlbumes = new IntersectionObserver(entries => {
 })
 observerSectionAlbumes.observe(elements.albumesSection)
 
-// eslint-disable-next-line no-undef
 const observerSectionArtistas = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     elements.artistasLink.style.color = entry.isIntersecting ? '#1ED760' : 'white'
@@ -1252,7 +1265,6 @@ const observerSectionArtistas = new IntersectionObserver(entries => {
 })
 observerSectionArtistas.observe(elements.artistasSection)
 
-// eslint-disable-next-line no-undef
 const observerFooter = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (active) {

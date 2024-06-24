@@ -6,10 +6,10 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        gradiantBottom: 'linear-gradient(0deg,#000,rgba(0,0,0,.5) 35%,transparent 70%)',
-        gradiantLeft: 'linear-gradient(270deg,#000,rgba(0,0,0,.1) 10%,transparent 70%)',
-        gradiantRight: 'linear-gradient(90deg,#000,rgba(0,0,0,.1) 10%,transparent 70%)',
-        gradiantTop: 'linear-gradient(180deg,#000,rgba(0,0,0,.5) 35%,transparent 70%)'
+        gradientBottom: 'linear-gradient(0deg,#000,rgba(0,0,0,.5) 35%,transparent 70%)',
+        gradientLeft: 'linear-gradient(270deg,#000,rgba(0,0,0,.1) 10%,transparent 70%)',
+        gradientRight: 'linear-gradient(90deg,#000,rgba(0,0,0,.1) 10%,transparent 70%)',
+        gradientTop: 'linear-gradient(180deg,#000,rgba(0,0,0,.5) 35%,transparent 70%)'
       },
       fontFamily: {
         sans: ['DM Sans', 'sans-serif']
