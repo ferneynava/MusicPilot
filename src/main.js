@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 import cryptoJs from 'crypto-js'
 import { nanoid } from 'nanoid'
-import { iniciarSpotifyWebPlaybackSDK } from './webPlaybackSDK.js'
+import { iniciarMusicPilotWebPlaybackSDK } from './webPlaybackSDK.js'
 import { swiper } from './Swiper.js'
 
 const clienID = '908cc6491f5448249c5348685fd2a696'
@@ -169,7 +169,7 @@ function assignEvents (elementSiguiente, elementAnterior, elementContainerPlayHo
   elementContainerPlayHover.addEventListener('mouseout', () => {
     active = true
     elementsPlay.style.transition = 'all 0.8s ease'
-    elements.play.style.transform = 'scale(1)'
+    elementsPlay.style.transform = 'scale(1)'
   })
 
   elementContainerPlayHover.addEventListener('click', () => {
@@ -232,7 +232,7 @@ if (window.location.search.includes('code')) {
   let trackInicial = 0
 
   window.onSpotifyWebPlaybackSDKReady = () => {
-    iniciarSpotifyWebPlaybackSDK(token)
+    iniciarMusicPilotWebPlaybackSDK(token)
   }
 
   const dataAPI = await datosAPI(token).then(([data, urlsLength]) => {
@@ -1196,7 +1196,7 @@ document.querySelector('form').addEventListener('submit', (event) => {
   event.preventDefault()
 })
 
-// Funcion para obtener datos de la API de Spotify
+// Funcion para obtener datos de la API de MusicPilot
 
 async function datosAPI (token, id, idPlaylist, idAlbum, idPista, idPopularesArtista, searchArtist) {
   const urls = ['https://api.spotify.com/v1/me', 'https://api.spotify.com/v1/me/tracks?limit=20', 'https://api.spotify.com/v1/me/playlists', 'https://api.spotify.com/v1/me/albums', 'https://api.spotify.com/v1/me/following?type=artist']
