@@ -10,7 +10,7 @@ let globalToken = ''
 const volumen = document.getElementById('default-range')
 const warningCuentaPro = document.querySelector('.warningCuentaPro')
 const closeWarning = document.querySelector('.closeWarning')
-const wsUrl = 'ws://192.168.43.51:300'
+const wsUrl = 'wss://beautiful-praline-7bc3f1.netlify.app/'
 let websocket
 let playReceived = false
 
