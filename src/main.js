@@ -7,7 +7,7 @@ import { iniciarMusicPilotWebPlaybackSDK } from './webPlaybackSDK.js'
 import { swiper } from './Swiper.js'
 
 const clienID = '908cc6491f5448249c5348685fd2a696'
-const redireccionarURI = 'https://beautiful-praline-7bc3f1.netlify.app'
+const redireccionarURI = 'https://music-pilot-bzitaumvh-ferneynavas-projects.vercel.app'
 
 const urlParams = new URLSearchParams(window.location.search)
 const code = urlParams.get('code')
