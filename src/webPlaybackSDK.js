@@ -42,7 +42,7 @@ onValue(messageRef, (snapshot) => {
       pausaButton.classList.remove('hidden')
       setTimeout(() => {
         play(globalToken)
-      }, 4000)
+      }, 3500)
     } else if (datainicial === 'Pausa') {
       pausa()
       pausaButton.classList.add('hidden')
