@@ -47,15 +47,9 @@ onValue(messageRef, (snapshot) => {
     initialLoad = false
     const datainicial = snapshot.val()
     if (datainicial === 'Play') {
-      playButton.classList.add('hidden')
-      pausaButton.classList.remove('hidden')
-      setTimeout(() => {
-        play(globalToken)
-      }, 3800)
-    } else if (datainicial === 'Pausa') {
-      pausa()
-      pausaButton.classList.add('hidden')
       playButton.classList.remove('hidden')
+      pausaButton.classList.add('hidden')
+      pausa()
     }
   } else {
     const data = snapshot.val()
