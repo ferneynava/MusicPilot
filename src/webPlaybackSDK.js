@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 import { initializeApp } from 'firebase/app'
 import { getDatabase, ref, onValue } from 'firebase/database'
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDg1BblRjwqQAK7ZpJBomgAgJLLhTztOk0',
@@ -16,6 +17,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 const db = getDatabase(app)
+
+initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider('6Lc3FQUqAAAAAG2h8SOYJFVny78Khgl8akrz0LQt'),
+  isTokenAutoRefreshEnabled: true
+})
 
 let isPlaying = false
 let currentTrack = null
