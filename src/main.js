@@ -7,7 +7,7 @@ import { iniciarMusicPilotWebPlaybackSDK } from './webPlaybackSDK.js'
 import { swiper } from './Swiper.js'
 
 const clienID = '908cc6491f5448249c5348685fd2a696'
-const redireccionarURI = 'https://music-pilot-bzitaumvh-ferneynavas-projects.vercel.app'
+const redireccionarURI = 'http://localhost:5173/callback'
 
 const urlParams = new URLSearchParams(window.location.search)
 const code = urlParams.get('code')
@@ -52,6 +52,7 @@ const selectors = {
   artistas: '.artistasClickMovil',
   containerPlay_Hover: '.containerPlay_Hover',
   play: '#Play',
+  pausa: '#Pausa',
   siguiente: '#Siguiente',
   anterior: '#Anterior',
   cerrarSesion: '.cerrarSesion',
@@ -127,7 +128,7 @@ elements.menu.addEventListener('click', () => {
   }
 })
 
-function assignEvents (elementSiguiente, elementAnterior, elementContainerPlayHover, elementsPlay, elementMenuCerrar, elementInicio, elementPlaylist, elementAlbumes, elementArtistas, elementDevolverMisPlaylist, elementDevolverMisAlbumes, elementDevolverMisArtistas) {
+function assignEvents (elementSiguiente, elementAnterior, elementContainerPlayHover, elementsPlay, elementPausa, elementMenuCerrar, elementInicio, elementPlaylist, elementAlbumes, elementArtistas, elementDevolverMisPlaylist, elementDevolverMisAlbumes, elementDevolverMisArtistas) {
   elementSiguiente.onmouseover = function () {
     this.style.color = 'white'
   }
@@ -164,17 +165,26 @@ function assignEvents (elementSiguiente, elementAnterior, elementContainerPlayHo
     active = true
     elementsPlay.style.transition = 'all 0.8s ease'
     elementsPlay.style.transform = 'scale(1.2)'
+    elementPausa.style.transition = 'all 0.8s ease'
+    elementPausa.style.transform = 'scale(1.2)'
   })
 
   elementContainerPlayHover.addEventListener('mouseout', () => {
     active = true
     elementsPlay.style.transition = 'all 0.8s ease'
     elementsPlay.style.transform = 'scale(1)'
+    elementPausa.style.transition = 'all 0.8s ease'
+    elementPausa.style.transform = 'scale(1)'
   })
 
   elementContainerPlayHover.addEventListener('click', () => {
-    elementsPlay.style.transition = 'all 0.2s ease'
-    elementsPlay.style.transform = 'scale(1)'
+    if (elementPausa.classList.contains('hidden')) {
+      elementPausa.classList.remove('hidden')
+      elementsPlay.classList.add('hidden')
+    } else {
+      elementPausa.classList.add('hidden')
+      elementsPlay.classList.remove('hidden')
+    }
   })
 
   elementMenuCerrar.addEventListener('click', inactiveMenu)
@@ -187,7 +197,7 @@ function assignEvents (elementSiguiente, elementAnterior, elementContainerPlayHo
   elementDevolverMisArtistas.addEventListener('click', activeArtistas)
 }
 
-assignEvents(elements.siguiente, elements.anterior, elements.containerPlay_Hover, elements.play, elements.menuCerrar, elements.inicio, elements.playlist, elements.albumes, elements.artistas, elements.devolverMisPlaylist, elements.devolverMisAlbumes, elements.devolverMisArtistas)
+assignEvents(elements.siguiente, elements.anterior, elements.containerPlay_Hover, elements.play, elements.pausa, elements.menuCerrar, elements.inicio, elements.playlist, elements.albumes, elements.artistas, elements.devolverMisPlaylist, elements.devolverMisAlbumes, elements.devolverMisArtistas)
 
 function activePlaylist () {
   elements.misPlaylists.classList.remove('mobilePlaylist')
