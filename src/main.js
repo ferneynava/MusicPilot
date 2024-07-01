@@ -318,7 +318,7 @@ if (window.location.search.includes('code')) {
 
     elements.containerInfo.innerHTML = `
               <div class="grid lg:grid-cols-2 grid-cols-1 gap-9"> 
-                <div class="flex flex-col gap-y-8 items-center justify-center"> 
+                <div class="flex flex-col gap-y-4 items-center justify-center"> 
                   <h1 class="font-semibold z-10 text-3xl">${nombreCancion}</h1> 
                   <h1 class="font-semibold z-10 text-3xl">${tuMusica.items[index].track.artists[0].name}</h1>
                   <ul class="infoCancion relative z-10 flex flex-wrap gap-5 transition-colors text-textGray2 font-semibold text-base justify-center">
