@@ -30,13 +30,24 @@ const closeWarning = document.querySelector('.closeWarning')
 const playButton = document.getElementById('Play')
 const pausaButton = document.getElementById('Pausa')
 
-let playReceived = false
 let initialLoad = true
 
 const messageRef = ref(db, '/musicpilot/reproductor')
 onValue(messageRef, (snapshot) => {
   if (initialLoad) {
     initialLoad = false
+    const datainicial = snapshot.val()
+    if (datainicial === 'Play') {
+      playButton.classList.add('hidden')
+      pausaButton.classList.remove('hidden')
+      setTimeout(() => {
+        play(globalToken)
+      }, 4000)
+    } else if (datainicial === 'Pausa') {
+      pausa()
+      pausaButton.classList.add('hidden')
+      playButton.classList.remove('hidden')
+    }
   } else {
     const data = snapshot.val()
     iniciarWebSocket(data)
@@ -44,20 +55,18 @@ onValue(messageRef, (snapshot) => {
 })
 
 function iniciarWebSocket (message) {
-  if (message === 'Play' && !playReceived) {
+  if (message === 'Play') {
     if (!playButton.classList.contains('hidden')) {
       playButton.classList.add('hidden')
       pausaButton.classList.remove('hidden')
     }
     play(globalToken)
-    playReceived = true
-  } else if (message === 'Pausa' && playReceived) {
+  } else if (message === 'Pausa') {
     if (!pausaButton.classList.contains('hidden')) {
       pausaButton.classList.add('hidden')
       playButton.classList.remove('hidden')
     }
     pausa()
-    playReceived = false
   }
 }
 
