@@ -7,7 +7,7 @@ import { iniciarMusicPilotWebPlaybackSDK } from './webPlaybackSDK.js'
 import { swiper } from './Swiper.js'
 
 const clienID = '908cc6491f5448249c5348685fd2a696'
-const redireccionarURI = 'http://localhost:5173/callback'
+const redireccionarURI = 'https://musicpilot-362fb.web.app'
 
 const urlParams = new URLSearchParams(window.location.search)
 const code = urlParams.get('code')
