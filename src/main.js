@@ -618,7 +618,7 @@ if (window.location.search.includes('code')) {
   const cancionesPlaylist = dataAPIcancionesPlay[0][longitudURLs - 1]
 
   elements.cancionesPlaylists.innerHTML = `  
-    <div class="flex items-center gap-4 flex-col sm:flex-row">
+    <div class="flex items-center gap-4 flex-col sm:flex-row cancionesPlaylistsMobile">
       <img src="${playlist.items[0].images[0].url}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${playlist.items[0].name}</h1>
@@ -690,7 +690,7 @@ if (window.location.search.includes('code')) {
   }
 
   elements.cancionesInfAlbum.innerHTML = `  
-  <div class="flex items-center gap-4 flex-col sm:flex-row">
+  <div class="flex items-center gap-4 flex-col sm:flex-row cancionesAlbumMobile">
     <img src="${Albumes.items[0].album.images[0].url}" alt="${Albumes.items[0].album.name}" class="rounded-lg h-40">
     <div class="flex flex-col">
       <h1 class="font-semibold text-4xl text-white">${nombreAlbum}</h1>
@@ -744,7 +744,7 @@ if (window.location.search.includes('code')) {
   const artistasTracksTop = dataAPICancionesPopularesArtista[0][longitudURLssss - 1]
 
   elements.cancionesInfArtista.innerHTML = `
-    <div class="flex items-center gap-4 flex-col sm:flex-row">
+    <div class="flex items-center gap-4 flex-col sm:flex-row cancionesArtistaMobile">
       <img src="${Artistas.artists.items[0].images[0].url}" alt="${Artistas.artists.items[0].name}" class="rounded-lg h-40">
       <div class="flex flex-col">
         <h1 class="font-semibold text-4xl text-white">${Artistas.artists.items[0].name}</h1>
@@ -786,7 +786,7 @@ if (window.location.search.includes('code')) {
     const longitudURLs = dataAPIcancionesPlay[1]
     const cancionesPlaylist = dataAPIcancionesPlay[0][longitudURLs - 1]
     elements.cancionesPlaylists.innerHTML = `  
-      <div class="flex items-center gap-4 flex-col sm:flex-row">
+      <div class="flex items-center gap-4 flex-col sm:flex-row cancionesPlaylistsMobile">
         <img src="${urlImagen}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${name}</h1>
@@ -836,7 +836,7 @@ if (window.location.search.includes('code')) {
     const longitudURLss = dataAPICancionesAlbumes[1]
     const cancionesAlbum = dataAPICancionesAlbumes[0][longitudURLss - 1]
     elements.cancionesInfAlbum.innerHTML = `  
-      <div class="flex items-center gap-4 flex-col sm:flex-row">
+      <div class="flex items-center gap-4 flex-col sm:flex-row cancionesAlbumMobile">
         <img src="${urlImagen}" alt="playlist" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${nombreAlbums}</h1>
@@ -881,7 +881,7 @@ if (window.location.search.includes('code')) {
     const longitudURLssss = dataAPICancionesPopularesArtista[1]
     const artistasTracksTop = dataAPICancionesPopularesArtista[0][longitudURLssss - 1]
     elements.cancionesInfArtista.innerHTML = `
-      <div class="flex items-center gap-4 flex-col sm:flex-row">
+      <div class="flex items-center gap-4 flex-col sm:flex-row cancionesArtistaMobile">
         <img src="${urlImagen}" alt="${name}" class="rounded-lg h-40">
         <div class="flex flex-col">
           <h1 class="font-semibold text-4xl text-white">${name}</h1>

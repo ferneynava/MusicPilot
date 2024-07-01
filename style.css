@@ -89,6 +89,10 @@ body {
     .container {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
+ 
+    .containerInfo h1{
+        font-size: 1.0rem;
+    }
 
     .containerMisListas{
         justify-content: center;
@@ -99,7 +103,7 @@ body {
         justify-self: center;
     }
 
-    .presentacionImg, .mobilePlaylist, .infoAlbumMovil, .mobileInfArtista, .Menu-container, .infoArtistaMobile,  .mobileVolumen, .asidePerfilSesion{
+    .presentacionImg, .mobilePlaylist, .infoAlbumMovil, .mobileInfArtista, .Menu-container, .infoArtistaMobile,  .mobileVolumen, .asidePerfilSesion, .cancionesPlaylistsMobile, .cancionesAlbumMobile, .cancionesArtistaMobile{
         display: none;
     }
 
