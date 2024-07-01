@@ -3,6 +3,7 @@
 import { initializeApp } from 'firebase/app'
 import { getDatabase, ref, onValue } from 'firebase/database'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check'
+import { getAnalytics } from 'firebase/analytics'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDg1BblRjwqQAK7ZpJBomgAgJLLhTztOk0',
@@ -16,6 +17,8 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+getAnalytics(app)
+
 const db = getDatabase(app)
 
 initializeAppCheck(app, {
