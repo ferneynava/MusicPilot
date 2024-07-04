@@ -89,6 +89,7 @@ https://github.com/ferneynava/MusicPilot/assets/43612075/470cca70-09a9-4c52-8da0
 * ![C++]
 * ![Firebase]
 * ![Vite]
+* ![Arduino]
 
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
@@ -144,7 +145,6 @@ https://github.com/ferneynava/MusicPilot/assets/43612075/470cca70-09a9-4c52-8da0
       # or
       pnpm install
    ```
-
 4. Corre el proyecto 
    ```sh
     npm run dev
@@ -159,10 +159,19 @@ https://github.com/ferneynava/MusicPilot/assets/43612075/470cca70-09a9-4c52-8da0
 Si tiene una sugerencia que mejoraría esto, bifurque el repositorio y crea una solicitud de extracción. También puede simplemente abrir un problema con la etiqueta "mejora". ¡No olvides darle una estrella al proyecto! ¡Gracias de nuevo!
 
 1. Bifurcar el proyecto
-2. Crea tu rama de funciones (`git checkout -b <Nombre de la rama>`)
-3. Confirme sus cambios (`git commit -m "mensaje del commit'`)
-4. Empuje a la Sucursal (`git push origin branch`)
-5. Abrir una solicitud de extracción
+2. Crea tu rama de funciones 
+  ```sh
+    git checkout -b <Nombre de la rama>
+   ```
+3. Confirme sus cambios 
+```sh
+  git commit -m "mensaje del commit"
+```
+4. Empuje a la rama
+```sh
+  git push origin <Nombre de la rama>
+```
+5. Abrir un Pull Request
 
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
@@ -197,3 +206,4 @@ Project Link: [https://github.com/ferneynava/MusicPilot.git](https://github.com/
 [C++]: https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white
 [Firebase]: https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black
 [Vite]: https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E
+[Arduino]: https://img.shields.io/badge/Arduino_IDE-00979D?style=for-the-badge&logo=arduino&logoColor=white
