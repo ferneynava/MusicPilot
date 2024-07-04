@@ -46,7 +46,7 @@
     <li>
       <a href="#empezando">Empezando</a>
       <ul>
-        <li><a href="#requisitosprevios">Requisitos previos</a></li>
+        <li><a href="#prerrequisitos">Prerrequisitos para probar la aplicación Web</a></li>
         <li><a href="#instalación">Instalación</a></li>
       </ul>
     </li>
@@ -92,17 +92,49 @@ https://github.com/ferneynava/MusicPilot/assets/43612075/470cca70-09a9-4c52-8da0
 
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
-
-
 ## Empezando
 
-### Instalación
+### Prerrequisitos
 
-1. Clona el repositorio:
+1. Realiza un fork del repositorio
+
+2. Clona el repositorio en tu máquina local:
    ```sh
    git clone https://github.com/ferneynava/MusicPilot.git
    ```
-2. Instalar dependencias: 
+  
+3. Crea una nueva rama de funciones con el nombre `Obtener acceso`:
+```sh
+   git checkout -b <Obtener-acceso>
+```
+
+4. Abra el archivo `correos.md` y agrega tu correo electrónico.
+
+5. Guarda los cambios y confirma el commit: 
+```sh
+  git add correos.md
+  git commit -m "Agregar correo para obtener acceso"
+```
+
+6. Envía el pull request al repositorio principal:
+
+  ```sh
+   git push origin Obtener-acceso
+   ```
+  
+7. Una vez que tu pull request sea aceptado, podrás acceder y disfrutar de la aplicación web usando el siguiente enlace:  [musicpilot-362fb.web.app](https://musicpilot-362fb.web.app)
+
+
+### Instalación
+
+1. Asegúrate de haber completado los prerrequisitos.
+
+2. Clona el repositorio:
+   ```sh
+   git clone https://github.com/ferneynava/MusicPilot.git
+   ```
+
+3. Instalar dependencias: 
    ```sh
       npm install
       # or
@@ -112,10 +144,12 @@ https://github.com/ferneynava/MusicPilot/assets/43612075/470cca70-09a9-4c52-8da0
       # or
       pnpm install
    ```
-3. Corre el proyecto 
+
+4. Corre el proyecto 
    ```sh
     npm run dev
    ```
+
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
 ## Contribuyendo
