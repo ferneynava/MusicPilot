@@ -66,20 +66,29 @@
 
 ### Demostración
 
+Mira este video para ver **MusicPilot** en acción:
 
 https://github.com/ferneynava/MusicPilot/assets/43612075/470cca70-09a9-4c52-8da0-f675a5338e3c
-
 
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
 ### Características
 
+- **Control Avanzado de Música:** Utiliza el ESP32 para proporcionar un control intuitivo y eficiente sobre la reproducción y pausa de la música desde tu cuenta de Spotify. MusicPilot te permite disfrutar de tu música favorita con facilidad.
+
+- **Interfaz Diseñada para la Experiencia del Usuario:** La interfaz de MusicPilot ha sido cuidadosamente diseñada para ser atractiva y funcional.
+
+- **Integración Completa con Spotify:** MusicPilot utiliza la API de Spotify de manera integral. Podrás ver tu nombre de usuario, explorar tus canciones favoritas, acceder a tus playlists personalizadas, tus álbumes y artistas que sigues, todo desde una misma plataforma.
+
 ### Tecnologías
 
 * ![HTML]
 * ![CSS]
+* ![Tailwind css]
 * ![js]
-* Astro
+* ![C++]
+* ![Firebase]
+* ![Vite]
 
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
@@ -149,5 +158,8 @@ Project Link: [https://github.com/ferneynava/MusicPilot.git](https://github.com/
 [product-screenshot]: /public/Minimalist%20Website%20Launch%20Computer%20Mockup%20Instagram%20Post.png
 [HTML]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
 [CSS]: https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white
+[Tailwind css]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
 [js]: https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E
-
+[C++]: https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white
+[Firebase]: https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black
+[Vite]: https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E
