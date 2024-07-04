@@ -60,7 +60,7 @@
 
 ## Acerca del proyecto
 
-[![Product Name Screen Shot][product-screenshot]](https://ferneynava.com)
+[![Product Name Screen Shot][product-screenshot]](#prerrequisitos)
  
 **MusicPilot**  MusicPilot es una innovadora aplicación web que combina la potencia de la API de Spotify con la versatilidad del ESP32 para ofrecer una experiencia musical única y fluida. 
 
