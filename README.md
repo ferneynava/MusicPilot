@@ -50,7 +50,6 @@
         <li><a href="#instalación">Instalación</a></li>
       </ul>
     </li>
-    <li><a href="#uso">Uso</a></li>
     <li><a href="#contribuyendo">Contribuyendo</a></li>
     <li><a href="#licencia">Licencia</a></li>
     <li><a href="#contacto">Contacto</a></li>
@@ -180,19 +179,18 @@ Si tiene una sugerencia que mejoraría esto, bifurque el repositorio y crea una 
 
 Ferney Alexander Nava Trujillo - ferneynava@gmail.com
 
-Project Link: [https://github.com/ferneynava/MusicPilot.git](https://github.com/ferneynava/MusicPilot.git)
 
 <p align="right">(<a href="#volver-arriba">volver arriba</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/ferneynava/portafolioFerneyDev.svg?style=for-the-badge
-[contributors-url]: https://github.com/ferneynava/portafolioFerneyDev/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ferneynava/portafolioFerneyDev.svg?style=for-the-badge
-[forks-url]: https://github.com/ferneynava/portafolioFerneyDev/network/members
-[stars-shield]: https://img.shields.io/github/stars/ferneynava/portafolioFerneyDev.svg?style=for-the-badge
-[stars-url]: https://github.com/ferneynava/portafolioFerneyDev/stargazers
-[issues-shield]: https://img.shields.io/github/issues/ferneynava/portafolioFerneyDev.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/ferneynava/MusicPilot.svg?style=for-the-badge
+[contributors-url]: https://github.com/ferneynava/MusicPilot/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ferneynava/MusicPilot.svg?style=for-the-badge
+[forks-url]: https://github.com/ferneynava/MusicPilot/network/members
+[stars-shield]: https://img.shields.io/github/stars/ferneynava/MusicPilot.svg?style=for-the-badge
+[stars-url]: https://github.com/ferneynava/MusicPilot/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ferneynava/MusicPilot.svg?style=for-the-badge
 [issues-url]: https://github.com/ferneynava/MusicPilot/issues
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
