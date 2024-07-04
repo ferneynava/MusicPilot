@@ -4,7 +4,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
@@ -192,8 +191,6 @@ Ferney Alexander Nava Trujillo - ferneynava@gmail.com
 [stars-url]: https://github.com/ferneynava/MusicPilot/stargazers
 [issues-shield]: https://img.shields.io/github/issues/ferneynava/MusicPilot.svg?style=for-the-badge
 [issues-url]: https://github.com/ferneynava/MusicPilot/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/ferney-alexander-nava-trujillo-0478a8118/
 [product-screenshot]: /public/Minimalist%20Website%20Launch%20Computer%20Mockup%20Instagram%20Post.png
