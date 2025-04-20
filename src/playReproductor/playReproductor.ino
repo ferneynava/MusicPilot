@@ -3,14 +3,14 @@
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 
-const char* ssid = "HUAWEI Y8p";
-const char* password = "n@1075va";
+const char* ssid = "******";
+const char* password = "******";
 
 #define FIREBASE_HOST "musicpilot-362fb-default-rtdb.firebaseio.com"
-#define FIREBASE_API_KEY "AIzaSyDg1BblRjwqQAK7ZpJBomgAgJLLhTztOk0"
+#define FIREBASE_API_KEY "**********"
 
-#define USER_EMAIL "musicpilot@gmail.com"
-#define USER_PASSWORD "musicpi@l0t"
+#define USER_EMAIL "*************"
+#define USER_PASSWORD "*****************"
 
 FirebaseData firebaseData;
 FirebaseAuth auth;
@@ -110,4 +110,3 @@ void reconectarFirebase(){
   }
   Serial.println("Reconectado a Firebase.");
 }
-
